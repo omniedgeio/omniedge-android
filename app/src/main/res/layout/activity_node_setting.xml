@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.NodeSettingActivity">
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_omniedge"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/iv_slogan"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_slogan"
+        app:layout_constraintLeft_toLeftOf="@id/iv_logo"
+        app:layout_constraintRight_toRightOf="@id/iv_logo"
+        app:layout_constraintTop_toBottomOf="@id/iv_logo"
+        tools:ignore="ContentDescription" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.06" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.94" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/iv_slogan" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90" />
+
+    <EditText
+        android:id="@+id/et_ip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/dashed_border"
+        android:digits="0123456789."
+        android:hint="@string/server_ip_hint"
+        android:inputType="number"
+        android:lines="1"
+        android:maxLength="15"
+        android:maxLines="1"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@id/et_server_name"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintLeft_toRightOf="@id/guideline_left"
+        app:layout_constraintRight_toLeftOf="@id/et_port"
+        app:layout_constraintTop_toBottomOf="@id/guideline_top"
+        tools:text="192.168.1.1" />
+
+    <EditText
+        android:id="@+id/et_port"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/dashed_border"
+        android:digits="0123456789"
+        android:hint="@string/port_hint"
+        android:inputType="number"
+        android:lines="1"
+        android:maxLength="5"
+        android:maxLines="1"
+        android:textSize="28sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/et_ip"
+        app:layout_constraintHorizontal_weight="2.5"
+        app:layout_constraintLeft_toRightOf="@id/et_ip"
+        app:layout_constraintRight_toLeftOf="@id/guideline_right"
+        tools:text="32121" />
+
+    <EditText
+        android:id="@+id/et_server_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dashed_border"
+        android:hint="@string/server_name_hint"
+        android:inputType="text"
+        android:lines="1"
+        android:maxLines="1"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@id/et_tap_ip"
+        app:layout_constraintLeft_toRightOf="@id/guideline_left"
+        app:layout_constraintRight_toLeftOf="@id/guideline_right"
+        app:layout_constraintTop_toBottomOf="@id/et_ip" />
+
+    <EditText
+        android:id="@+id/et_tap_ip"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="tap_ip"
+        android:background="@drawable/dashed_border"
+        android:digits="0123456789."
+        android:hint="@string/tap_ip_hint"
+        android:inputType="number"
+        android:lines="1"
+        android:maxLength="15"
+        android:maxLines="1"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@id/et_password"
+        app:layout_constraintLeft_toRightOf="@id/guideline_left"
+        app:layout_constraintRight_toLeftOf="@id/guideline_right"
+        app:layout_constraintTop_toBottomOf="@id/et_server_name" />
+
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="password"
+        android:background="@drawable/dashed_border"
+        android:hint="@string/password_hint"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:maxLines="1"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@id/btn_connect"
+        app:layout_constraintLeft_toRightOf="@id/guideline_left"
+        app:layout_constraintRight_toLeftOf="@id/guideline_right"
+        app:layout_constraintTop_toBottomOf="@id/et_tap_ip" />
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/solid_border"
+        android:lines="1"
+        android:maxLines="1"
+        android:text="@string/connect"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
+        app:layout_constraintLeft_toRightOf="@id/guideline_left"
+        app:layout_constraintRight_toLeftOf="@id/guideline_right"
+        app:layout_constraintTop_toBottomOf="@id/et_password" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

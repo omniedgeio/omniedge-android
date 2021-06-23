@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OmniEdge</string>
+    <string name="input_password">Empty password</string>
+    <string name="update_password">Change Password</string>
+    <string name="submit">Submit</string>
+    <string name="old_password">New password</string>
+    <string name="new_password">Repeat new password</string>
+    <string name="update_password_success">Password changed</string>
+    <string name="logout">Logout</string>
+    <string name="notthesame">Wrong repeat</string>
+    <string name="invalidPasswordMessage">6-22 characters</string>
+    <string name="unknownIP">Unknown IP</string>
+    <string name="unkonwnName">Unknown Name</string>
+    <string name="privacy_title">Privacy</string>
+
+    <string name="node_setting">Node settings</string>
+    <string name="notification_channel_id_default">default</string>
+    <string name="notify_disconnect">Disconnected with supernode</string>
+    <string name="notify_reconnected">Reconnect to supernode successfully</string>
+    <string name="server_ip_hint">Server IP</string>
+    <string name="server_name_hint">Server Name</string>
+    <string name="tap_ip_hint">Tap IP</string>
+    <string name="password_hint">Password</string>
+    <string name="password_confirm_hint">Confirm Password</string>
+    <string name="connect">Connect</string>
+    <string name="port_hint">Port</string>
+    <string name="server_ip_empty">Server IP\'s empty</string>
+    <string name="server_port_empty">Server Port\'s empty</string>
+    <string name="server_name_empty">Server Name\'s empty</string>
+    <string name="tap_ip_empty">Tap IP\'s empty</string>
+    <string name="device_list">Device List</string>
+    <string name="app_sign_in">Sign in</string>
+    <string name="app_sign_up">Sign up</string>
+    <string name="app_sign_in_with_google">Sign in with Google</string>
+    <string name="email_hint">Email Address</string>
+
+    <string name="password_confirm_mismatch">Password don\'t match.</string>
+    <string name="email_or_password_empty">Email or Password empty</string>
+    <string name="password_short_length">Password length too short, 8 characters at least.</string>
+    <string name="this_device">%s (This Device)</string>
+    <string name="help">Help</string>
+    <string name="about">About</string>
+    <string name="home_page">Home page</string>
+    <string name="licenses">Licenses</string>
+    <string name="legal">Legal</string>
+    <string name="terms_of_service">Terms of service</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="omniedge">OmniEdge</string>
+    <string name="community">Community</string>
+    <string name="browser_missing">Browser not found. Please install a browser before next step.</string>
+    <string name="click_to_retry">click to retry</string>
+    <string name="ping_devices">Ping Devices</string>
+
+</resources>

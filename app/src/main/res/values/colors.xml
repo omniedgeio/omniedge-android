@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#111111</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#111111</color>
+    <color name="colorButton">#333333</color>
+    <color name="colorButtonPressed">#111111</color>
+
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBackground">#F4F4F4</color>
+    <color name="colorGrayBorder">#9B9B9C</color>
+    <color name="colorButtonGrayBackground">#A9A9AA</color>
+
+    <color name="colorSupernodeDisconnect">#FF0000</color>
+</resources>

@@ -1,0 +1,6 @@
+/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86/CMakeFiles/rebuild_cache.dir
+/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86/CMakeFiles/uip.dir
+/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86/CMakeFiles/slog.dir
+/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86/CMakeFiles/edge_v2.dir
+/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86/CMakeFiles/edit_cache.dir
+/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86/CMakeFiles/edge_jni.dir

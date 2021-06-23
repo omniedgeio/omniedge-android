@@ -1,0 +1,4 @@
+include ':common'
+include ':n2n'
+include ':app'
+rootProject.name='OmniEdge'

@@ -1,0 +1,47 @@
+{
+  "buildFiles": [
+    "/Users/randall/workspace/omniedge-android/n2n/CMakeLists.txt",
+    "/Users/randall/Library/Android/sdk/ndk/21.1.6352462/build/cmake/android.toolchain.cmake",
+    "/Users/randall/Library/Android/sdk/ndk/21.1.6352462/build/cmake/platforms.cmake"
+  ],
+  "cleanCommands": [
+    "/Users/randall/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86\" clean"
+  ],
+  "buildTargetsCommand": "/Users/randall/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "edge_v2-Debug-x86": {
+      "artifactName": "edge_v2",
+      "buildCommand": "/Users/randall/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86\" edge_v2",
+      "abi": "x86",
+      "output": "/Users/randall/workspace/omniedge-android/n2n/build/intermediates/cmake/debug/obj/x86/libedge_v2.so",
+      "runtimeFiles": [
+        "/Users/randall/workspace/omniedge-android/n2n/build/intermediates/cmake/debug/obj/x86/libuip.so"
+      ]
+    },
+    "edge_jni-Debug-x86": {
+      "artifactName": "edge_jni",
+      "buildCommand": "/Users/randall/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86\" edge_jni",
+      "abi": "x86",
+      "output": "/Users/randall/workspace/omniedge-android/n2n/build/intermediates/cmake/debug/obj/x86/libedge_jni.so",
+      "runtimeFiles": [
+        "/Users/randall/workspace/omniedge-android/n2n/build/intermediates/cmake/debug/obj/x86/libedge_v2.so",
+        "/Users/randall/workspace/omniedge-android/n2n/build/intermediates/cmake/debug/obj/x86/libslog.so",
+        "/Users/randall/workspace/omniedge-android/n2n/build/intermediates/cmake/debug/obj/x86/libuip.so"
+      ]
+    },
+    "slog-Debug-x86": {
+      "artifactName": "slog",
+      "buildCommand": "/Users/randall/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86\" slog",
+      "abi": "x86",
+      "output": "/Users/randall/workspace/omniedge-android/n2n/build/intermediates/cmake/debug/obj/x86/libslog.so",
+      "runtimeFiles": []
+    },
+    "uip-Debug-x86": {
+      "artifactName": "uip",
+      "buildCommand": "/Users/randall/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/randall/workspace/omniedge-android/n2n/.cxx/cmake/debug/x86\" uip",
+      "abi": "x86",
+      "output": "/Users/randall/workspace/omniedge-android/n2n/build/intermediates/cmake/debug/obj/x86/libuip.so",
+      "runtimeFiles": []
+    }
+  }
+}
