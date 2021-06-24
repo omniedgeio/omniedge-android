@@ -1,21 +1,22 @@
 # OmniEdge
 [https://omniedge.io](https://omniedge.io)
 
-Connect without concerns.
+Connect without concern.
 
 ## Overview
 
-This repository contains the open source [OmniEdge](https://omniedge.io) Evalution Version Windows Client code. Other platform apps are: 
+This repository contains the open source [OmniEdge](https://omniedge.io) Evalution Version Android Client code. Other platform apps are: 
 
 - OmniEdge Android: [https://github.com/omniedgeio/omniedge-android](https://github.com/omniedgeio/omniedge-android)
-- OmniEdge-iOS: Comming soon
-- OmniEdge-MacOS: : Comming soon
-- OmniEdge Linux Cli: Comming soon
-- OmniEdge-Raspberry Pi: : Comming soon
+- OmniEdge-iOS: Coming soon
+- OmniEdge-windows: Coming Soon
+- OmniEdge-MacOS: : Coming soon
+- OmniEdge Linux Cli: Coming soon
+- OmniEdge-Raspberry Pi: : Coming soon
 - OmniEdge-Synology: [https://github.com/omniedgeio/omniedge-synology](https://github.com/omniedgeio/omniedge-synology)
-- OmniEdge-Router: : Comming soon
+- OmniEdge-Router: : Coming soon
 
-## What does OmniEdge do?
+## What does OmniEdge do ?
 
 OmniEdge is a high performance peer-to-peer mesh VPN over UDP, with strong encryption, hole-punching and no-configuration. The protocol is developed based on [n2n](https://github.com/ntop/n2n).
 
@@ -24,6 +25,7 @@ OmniEdge is a high performance peer-to-peer mesh VPN over UDP, with strong encry
 Anyone who wants to have your own private virtual network on the internet, connect your devices such as MacBook, iPhone, Android Phone, Routers, NAS, AGVs, Robots and more with a P2P VPN.
 
 ## Where to get help ? 
+
 Welcome to submit an issue if you have any problems, we do encourage you to try to fix it and submit a PR to us. 
 
 ## Contributing Guildlines
