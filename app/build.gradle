@@ -1,0 +1,112 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'walle'
+
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "io.omniedge"
+        minSdkVersion 23
+        targetSdkVersion 29
+        // xx_xx_xx
+        versionCode 1_03
+        // xx.xx.xxx_date
+        versionName "0.1.3_${getDate()}"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables.useSupportLibrary = true
+
+        // 是否启用SysTrace
+        buildConfigField('boolean', 'ENABLE_SYSTRACE', "${rootProject.ext.enableSystrace}")
+        buildConfigField("String", "SUPER_NODE", "\"${rootProject.ext.superNode}\"")
+    }
+
+    signingConfigs {
+        debug {
+            keyAlias rootProject.ext.signingKeyAlias
+            keyPassword rootProject.ext.signingKeyPassword
+            storeFile file(rootProject.ext.signingStoreFile)
+            storePassword rootProject.ext.signingStorePassword
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+
+    walle {
+        // 指定渠道包的输出路径
+        apkOutputFolder = new File("${project.buildDir}/outputs/channels")
+        // 定制渠道包的APK的文件名称
+        apkFileNameFormat = '${appName}-${channel}-${buildType}-v${versionName}.apk'
+        // 渠道配置文件
+        channelFile = new File("${project.getProjectDir()}/channel")
+    }
+}
+
+private static String getDate() {
+    def format = new SimpleDateFormat("yyMMddHHmm", Locale.US)
+    return format.format(new Date())
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.leanback:leanback:1.0.0'
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'com.android.actionsheetdialog:actionsheet:1.0.3'
+    implementation "org.permissionsdispatcher:permissionsdispatcher:4.6.0"
+    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:4.6.0"
+    implementation 'com.wang.avi:library:2.1.3'
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
+
+    implementation project(':n2n')
+    implementation project(':common')
+}

@@ -1,0 +1,44 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    Properties localProperties = new Properties()
+    if (project.rootProject.file('local.properties').exists()) {
+        localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+    }
+
+    ext.releaseOmniedgeAlias = localProperties.getProperty('RELEASE_OMNIEDGE_ALIAS', '')
+    ext.releaseOmniedgeKeyPassword = localProperties.getProperty('RELEASE_OMNIEDGE_KEY_PASSWORD', '')
+    ext.releaseOmniedgeStorePassword = localProperties.getProperty('RELEASE_OMNIEDGE_STORE_PASSWORD', '')
+    def enableSystrace = localProperties.getProperty('ENABLE_SYSTRACE', 'false') == 'true'
+    ext.enableSystrace = enableSystrace
+
+    ext.superNode = localProperties.getProperty('n2n.config.superNode')
+
+    ext.kotlin_version = '1.4.21'
+    repositories {
+        mavenCentral()
+        google()
+        jcenter()
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.meituan.android.walle:plugin:1.1.6'
+        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+apply plugin: 'com.amplifyframework.amplifytools'

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorBackground" />
+        </shape>
+    </item>
+
+    <item
+        android:width="200dp"
+        android:height="200dp"
+        android:drawable="@drawable/ic_omniedge"
+        android:gravity="center_horizontal|top"
+        android:top="200dp" />
+
+    <item
+        android:drawable="@drawable/ic_slogan"
+        android:gravity="center_horizontal|top"
+        android:left="50dp"
+        android:right="50dp"
+        android:top="450dp" />
+</layer-list>
