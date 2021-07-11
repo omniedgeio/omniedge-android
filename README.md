@@ -9,7 +9,7 @@ This repository contains the open source [OmniEdge](https://omniedge.io) Evaluti
 
 - OmniEdge Android: [https://github.com/omniedgeio/omniedge-android](https://github.com/omniedgeio/omniedge-android)
 - OmniEdge-iOS: Coming soon
-- OmniEdge-windows: Coming Soon
+- OmniEdge-windows: [https://github.com/omniedgeio/omniedge-windows](https://github.com/omniedgeio/omniedge-windows)
 - OmniEdge-MacOS: : Coming soon
 - OmniEdge Linux Cli: Coming soon
 - OmniEdge-Raspberry Pi: : Coming soon
