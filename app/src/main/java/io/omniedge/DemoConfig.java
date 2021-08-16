@@ -15,6 +15,7 @@ import io.omniedge.n2n.model.N2NSettingModel;
 public class DemoConfig {
     static int version = 1;
     static String netmask = "255.255.255.0";
+    static String superNode = BuildConfig.SUPER_NODE;
     static boolean moreSettings = false;
     static String superNodeBackup = "";
     static int mtu = 1386;

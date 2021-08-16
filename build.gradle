@@ -6,12 +6,11 @@ buildscript {
         localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
     }
 
-    ext.releaseOmniedgeAlias = localProperties.getProperty('RELEASE_OMNIEDGE_ALIAS', '')
-    ext.releaseOmniedgeKeyPassword = localProperties.getProperty('RELEASE_OMNIEDGE_KEY_PASSWORD', '')
-    ext.releaseOmniedgeStorePassword = localProperties.getProperty('RELEASE_OMNIEDGE_STORE_PASSWORD', '')
-    def enableSystrace = localProperties.getProperty('ENABLE_SYSTRACE', 'false') == 'true'
-    ext.enableSystrace = enableSystrace
-
+    ext.enableSystrace = localProperties.getProperty('ENABLE_SYSTRACE', 'false') == 'true'
+    ext.signingKeyAlias = localProperties.getProperty('signingKeyAlias')
+    ext.signingKeyPassword = localProperties.getProperty('signingKeyPassword')
+    ext.signingStoreFile = localProperties.getProperty('signingStoreFile')
+    ext.signingStorePassword = localProperties.getProperty('signingStorePassword')
     ext.superNode = localProperties.getProperty('n2n.config.superNode')
 
     ext.kotlin_version = '1.4.21'
