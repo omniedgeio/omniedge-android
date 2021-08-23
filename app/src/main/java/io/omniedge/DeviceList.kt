@@ -4,15 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Rect
 import android.net.VpnService
-import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
-import android.provider.Settings
-import android.text.TextUtils
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.TraceCompat
 import androidx.fragment.app.FragmentActivity
@@ -20,6 +17,7 @@ import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import io.omniedge.data.DataRepository
+import io.omniedge.data.bean.*
 import io.omniedge.n2n.N2NService
 import io.omniedge.n2n.event.StartEvent
 import io.omniedge.n2n.event.StopEvent
@@ -37,7 +35,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_device_list.*
 import kotlinx.android.synthetic.main.fragment_device_list.*
-import org.json.JSONObject
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -67,6 +66,7 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
             }
         }
     }
+
     override fun showBack(): Boolean {
         return false
     }
@@ -126,25 +126,40 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
             } else {
                 LoadingDialogUtils.hideLoading()
             }
-            btn_retry.visibility = if (loading == true) View.GONE else View.VISIBLE
         })
-        DeviceListVm.connectStatus()
-            .observe(this, Observer { connected: Boolean? ->
-                switch_vpn.isChecked = connected == true
-                btn_ping.isEnabled = connected == true
-                btn_ping.isFocusable = connected == true
-            })
-        DeviceListVm.deviceList().observe(this, Observer { deviceListData: DeviceListData? ->
-            switch_vpn.isEnabled = deviceListData != null
-        })
-        DeviceListVm.deviceList().observe(this, Observer { deviceListData: DeviceListData? ->
-            val validVirtualIpOrNull: String? = deviceListData?.joinVirtualNetworkResponse
-                ?.virtualIP?.takeIf { ip -> ip.isNotBlank() }
-            val setVirtualIpSuccess = validVirtualIpOrNull?.let { tv_ip.text = it; true } ?: false
-            btn_retry.visibility = if (setVirtualIpSuccess) View.GONE else View.VISIBLE
-        })
-        btn_retry.setOnClickListener { DeviceListVm.joinNetwork() }
-        btn_retry.performClick()
+        DeviceListVm.connectStatus().observe(this) { connected: Boolean? ->
+            switch_vpn.isChecked = connected == true
+            btn_ping.isEnabled = connected == true
+            btn_ping.isFocusable = connected == true
+        }
+        DeviceListVm.joinedNetwork().observe(this) {
+            it?.apply { DeviceListVm.listNetworks() }
+
+            // restart to another network from previous one
+            if (DeviceListVm.connectStatus().value == true) {
+                lifecycleScope.launch {
+                    stopService()
+                    delay(500)
+                    startService()
+                }
+            }
+        }
+        DeviceListVm.currentNetwork().observe(this) {
+            switch_vpn.isEnabled = it != null
+
+            it.apply {
+                tv_ip.text = this?.second?.virtualIp ?: ""
+            }
+        }
+        DeviceListVm.toast().observe(this) {
+            if (!it.isNullOrBlank()) {
+                showToast(it)
+            }
+        }
+        DeviceListVm.logout().observe(this) {
+            logout()
+        }
+        DeviceListVm.registerDevice()
         transaction.commitAllowingStateLoss()
         TraceCompat.endSection()
     }
@@ -152,36 +167,20 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
     private fun logout() {
         val signOutBlock = {
             stopService()
-            DeviceListVm.clearDeviceListData()
+            DeviceListVm.clearNetwork()
+            App.repository.updateToken(null)
             finish()
             startActivity(Intent(this, SignInActivity::class.java))
         }
-        DataRepository.getInstance(this)
-            .amplifySignOut()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : BusObserver<Boolean>(this) {
-                override fun loading(): Boolean {
-                    return true
-                }
 
-                override fun onSuccess(t: Boolean) {
-                    super.onSuccess(t)
-                    Log.d(TAG, "signOut: success")
-                    signOutBlock()
-                }
-
-                override fun onError(e: Throwable) {
-                    super.onError(e)
-                    Log.e(TAG, "signOut: error ", e)
-                    signOutBlock()
-                }
-            })
+        signOutBlock()
     }
 
     private fun showPopup(v: View) {
         PopupMenu(this, v).apply {
             setOnMenuItemClickListener(this@DeviceListActivity)
             inflate(R.menu.actions)
+            setFinishOnTouchOutside(true)
             show()
         }
     }
@@ -213,11 +212,11 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_VPN && resultCode == RESULT_OK) {
-            DeviceListVm.deviceList().value?.let { deviceListData: DeviceListData ->
+            DeviceListVm.joinedNetwork().value?.let {
                 val intent = Intent(this, N2NService::class.java)
                 val bundle = Bundle()
-                val n2NSettingModel = deviceListData.toN2NSettingModel(
-                    1, deviceNameVal, macAddressVal)
+                val n2NSettingModel =
+                    it.toN2NSettingModel(1, deviceNameVal, macAddressVal)
                 val n2NSettingInfo = N2NSettingInfo(n2NSettingModel)
                 bundle.putParcelable("n2nSettingInfo", n2NSettingInfo)
                 intent.putExtra("Setting", bundle)
@@ -229,6 +228,7 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
 }
 
 class DeviceListFragment : BaseFragment() {
+
     override fun getLayoutRes(): Int {
         return R.layout.fragment_device_list
     }
@@ -237,11 +237,12 @@ class DeviceListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         TraceCompat.beginSection("DeviceList#onViewCreated")
         refresh.setOnRefreshListener {
-            refresh.postDelayed({ refresh.isRefreshing = false }, 500)
+            refresh.isRefreshing = false
+            DeviceListVm.registerDevice()
         }
-        refresh.isEnabled = false
         val deviceAdapter = DeviceAdapter()
         listview.adapter = deviceAdapter
+
         val decor = object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect, view: View, parent: RecyclerView,
@@ -252,73 +253,66 @@ class DeviceListFragment : BaseFragment() {
             }
         }
         listview.addItemDecoration(decor)
-        val list = mutableListOf<Device>()
         val fragmentActivity = activity as FragmentActivity
         fragmentActivity.findViewById<View>(R.id.btn_ping)
-            .setOnClickListener { deviceAdapter.updatePing() }
+            ?.setOnClickListener { deviceAdapter.updatePing() }
 
-        DeviceListVm.deviceList()
-            .observe(fragmentActivity, Observer { deviceListData: DeviceListData? ->
-                val communityName = deviceListData?.joinVirtualNetworkResponse?.communityName
-                if (!TextUtils.isEmpty(communityName)) {
-                    tv_team.setOnClickListener {
-                        tv_team.text = communityName
-                        tv_team.setOnClickListener(null)
-                    }
-                }
-                list.clear()
-                val virtualIP = deviceListData?.joinVirtualNetworkResponse?.virtualIP ?: ""
-                deviceListData?.deviceList?.forEach { device ->
-                    device?.let {
-                        if (virtualIP == it.virtualIp) {
-                            Device(
-                                App.instance.getString(R.string.this_device, it.virtualIp),
-                                it.virtualIp
-                            )
-                        } else {
-                            Device(it.name, it.virtualIp)
-                        }
-                    }?.apply {
-                        list.add(this)
-                    }
-                }
-                deviceAdapter.setData(list)
-            })
+        DeviceListVm.networks().observe(fragmentActivity) { networks ->
+            deviceAdapter.updateData(networks)
+        }
+
         TraceCompat.endSection()
     }
 }
 
-data class Device(val name: String, val privateIp: String?, var ping: String? = "")
-
 class DeviceVh(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val tvName: TextView = itemView.findViewById(R.id.tv_name)
-    val tvIp: TextView = itemView.findViewById(R.id.tv_ip)
-    val tvPing: TextView = itemView.findViewById(R.id.tv_ping)
+    val rbNetwork: AppCompatRadioButton? = itemView.findViewById(R.id.network_radio_button)
+
+    val tvDeviceName: TextView? = itemView.findViewById(R.id.tv_name)
+    val tvIp: TextView? = itemView.findViewById(R.id.tv_ip)
+    val tvPing: TextView? = itemView.findViewById(R.id.tv_ping)
 }
 
 class DeviceAdapter : RecyclerView.Adapter<DeviceVh>() {
-    private val data = mutableListOf<Device>()
+    private data class ListDeviceData(
+        val device: DeviceData?,
+        val network: NetworkData?,
+        val isNetworkData: Boolean,
+        val index: Int,
+        var joined: Boolean = false,
+        var ping: String = "?ms",
+    )
 
-    fun setData(boxes: List<Device>) {
-        data.clear()
-        data.addAll(boxes)
-        notifyDataSetChanged()
+    companion object {
+        const val TYPE_NETWORK = 0
+        const val TYPE_DEVICE = 1
+
     }
 
+    private val networkData = mutableListOf<ListDeviceData>()
+
     fun updatePing() {
-        for ((index, bean) in data.withIndex()) {
-            val privateIp = bean.privateIp ?: return
+        for ((index, data) in networkData.withIndex()) {
+            if (data.isNetworkData) continue
+            val privateIp = data.device?.virtualIp ?: continue
             object : Thread("updatePing-$index") {
                 override fun run() {
                     super.run()
                     val ping: String = try {
                         ping(privateIp)
                     } catch (e: Throwable) { // 跨进程调用
-                        ""
+                        OmniLog.e("error on ping $privateIp", e)
+                        "?ms"
                     }
                     if (ping.isNotEmpty() && "?ms" != ping) {
-                        bean.ping = ping
-                        ThreadUtils.runOnMainThread { this@DeviceAdapter.notifyItemChanged(index) }
+                        data.ping = ping
+                        ThreadUtils.runOnMainThread {
+                            networkData.indexOf(data).let {
+                                if (it > 0) {
+                                    this@DeviceAdapter.notifyItemChanged(it)
+                                }
+                            }
+                        }
                     }
                 }
             }.start()
@@ -327,114 +321,236 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceVh>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceVh {
         TraceCompat.beginSection("DeviceAdapter#onCreateViewHolder")
-        val inflater = LayoutInflater.from(parent.context)
-        val itemView = inflater.inflate(R.layout.item_device_list, parent, false)
-        val deviceVh = DeviceVh(itemView)
+        val viewHolder: DeviceVh = when (viewType) {
+            TYPE_NETWORK -> {
+                val inflater = LayoutInflater.from(parent.context)
+                val itemView = inflater.inflate(R.layout.item_list_network, parent, false)
+                DeviceVh(itemView)
+            }
+            TYPE_DEVICE -> {
+                val inflater = LayoutInflater.from(parent.context)
+                val itemView = inflater.inflate(R.layout.item_list_device, parent, false)
+                DeviceVh(itemView)
+            }
+            else -> {
+                throw IllegalStateException()
+            }
+        }
         TraceCompat.endSection()
-        return deviceVh
+        return viewHolder
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return networkData.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (networkData[position].isNetworkData) {
+            true -> TYPE_NETWORK
+            false -> TYPE_DEVICE
+        }
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: DeviceVh, position: Int) {
         TraceCompat.beginSection("DeviceAdapter#onBindViewHolder")
-        val bean = data[position]
-//        OmniLog.d("DeviceAdapter#onBindViewHolder bean=$bean")
-        val context = holder.itemView.context
-        holder.tvName.text = bean.name
-        val ipString: CharSequence = bean.privateIp ?: context.getString(R.string.unknownIP)
-        holder.tvIp.text = ipString
-        holder.tvPing.text = bean.ping.takeIf { it?.isNotEmpty() == true } ?: ""
+        val data = networkData[position]
+        if (data.isNetworkData) {
+            holder.rbNetwork?.text = data.network?.name
+            holder.rbNetwork?.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    DeviceListVm.joinNetwork(data.network)
+                }
+            }
+            holder.rbNetwork?.isChecked = data.joined
 
-//        holder.itemView.setOnClickListener { updatePing(bean, this) }
+        } else {
+            holder.tvDeviceName?.text = data.device?.name
+            holder.tvIp?.text = data.device?.virtualIp
+            holder.tvPing?.text = if (data.device?.online == true) data.ping else "offline"
+        }
         TraceCompat.endSection()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(networks: List<NetworkData>) {
+        networkData.clear()
+        var index = 0
+        val uuid = App.repository.getLatestJoinedNetworkUUID()
+        val deviceUUID = App.repository.getDeviceUUID()
+        networks.forEach { data ->
+            var deviceJoined = false
+            var deviceData: DeviceData? = null
+            val listData =
+                ListDeviceData(null, data, true, index++)
+            networkData.add(listData)
+            data.devices?.forEach {
+                if (it.uuid == deviceUUID) {
+                    deviceJoined = true
+                    deviceData = it
+                }
+                networkData.add(ListDeviceData(it, null, false, index))
+            }
+            listData.joined = uuid != null && uuid == data.uuid && deviceJoined
+            if (listData.joined) {
+                DeviceListVm.currentNetwork()
+                    .postValue(Pair(data, deviceData) as Pair<NetworkData, DeviceData>?)
+                // join network on the first time
+                if (DeviceListVm.joinedNetwork().value == null) {
+                    DeviceListVm.joinNetwork(data)
+                }
+            }
+        }
+        // TODO: 2021/8/22 use the efficient way to refresh
+        notifyDataSetChanged()
     }
 }
 
 
 object DeviceListVm {
     @SuppressLint("StaticFieldLeak")
-    private val dataRepository = DataRepository.getInstance(App.instance)
+    private val repository = DataRepository.getInstance(App.instance)
     private val compositeDisposable = CompositeDisposable()
     private val loadingLv: MutableLiveData<Boolean> = MutableLiveData()
     private val lvConnectStatus: MutableLiveData<Boolean> = MutableLiveData()
-    private val deviceListDataLv: MutableLiveData<DeviceListData> = MutableLiveData()
-
-    private val observer = object : SingleObserver<DeviceListData> {
-        override fun onSubscribe(d: Disposable) {
-            loadingLv.postValue(true)
-        }
-
-        override fun onSuccess(t: DeviceListData) {
-            loadingLv.postValue(false)
-            deviceListDataLv.postValue(t)
-        }
-
-        override fun onError(e: Throwable) {
-            loadingLv.postValue(false)
-            deviceListDataLv.postValue(null)
-            e.printStackTrace()
-        }
-    }
+    private val toastLv: MutableLiveData<String?> = MutableLiveData()
+    private val logoutLv: MutableLiveData<Boolean> = MutableLiveData()
+    private val networksLv: MutableLiveData<List<NetworkData>> = MutableLiveData()
+    private val joinedNetworkLv: MutableLiveData<JoinNetworkData?> = MutableLiveData()
+    private val currentNetworkLv: MutableLiveData<Pair<NetworkData, DeviceData>> = MutableLiveData()
 
     init {
         compositeDisposable.add(RxBus.INSTANCE.toObservable(StartEvent::class.java)
-            .subscribe { lvConnectStatus.postValue(true) })
+            .subscribe {
+                lvConnectStatus.postValue(true)
+            })
         compositeDisposable.add(RxBus.INSTANCE.toObservable(StopEvent::class.java)
-            .subscribe { lvConnectStatus.postValue(false) })
+            .subscribe {
+                lvConnectStatus.postValue(false)
+            })
         compositeDisposable.add(RxBus.INSTANCE.toObservable(SupernodeDisconnectEvent::class.java)
-            .subscribe { lvConnectStatus.postValue(false) })
+            .subscribe {
+                lvConnectStatus.postValue(false)
+            })
     }
 
-    fun clearDeviceListData() {
-        deviceListDataLv.postValue(null)
+    fun connectStatus() = lvConnectStatus
+
+    fun loading() = loadingLv
+
+    fun toast() = toastLv
+
+    fun logout() = logoutLv
+
+    fun networks() = networksLv
+
+    fun joinedNetwork() = joinedNetworkLv
+
+    fun currentNetwork() = currentNetworkLv
+
+    fun registerDevice() {
+        repository.registerDevice(
+            RegisterDevice(
+                repository.getDeviceName(),
+                repository.getHardwareUUID(),
+                repository.getOSInfo()
+            )
+        )
+            .subscribeOn(Schedulers.io())
+            .doOnSuccess { response ->
+                response.data?.uuid?.apply {
+                    repository.updateDeviceUUID(this)
+                }
+            }
+            // list networks
+            .flatMap { repository.listNetworks() }
+            .subscribe(object : SingleObserver<ListNetworkResponse> {
+                override fun onSubscribe(d: Disposable) {
+                    loadingLv.postValue(true)
+                }
+
+                override fun onSuccess(t: ListNetworkResponse) {
+                    loadingLv.postValue(false)
+                    OmniLog.d("response: $t")
+                    networksLv.postValue(t.data)
+                }
+
+                override fun onError(e: Throwable) {
+                    loadingLv.postValue(false)
+                    OmniLog.e("error on list network", e)
+                    toastLv.postValue(e.message)
+                }
+            })
+
     }
 
-    fun joinNetwork() {
-        if (deviceListDataLv.value != null) {
-            return
+    fun listNetworks() {
+        repository.listNetworks()
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : SingleObserver<ListNetworkResponse> {
+                override fun onSubscribe(d: Disposable) {
+                    loadingLv.postValue(true)
+                }
+
+                override fun onSuccess(t: ListNetworkResponse) {
+                    loadingLv.postValue(false)
+                    OmniLog.d("response: $t")
+                    networksLv.postValue(t.data)
+                }
+
+                override fun onError(e: Throwable) {
+                    loadingLv.postValue(false)
+                    OmniLog.e("error on list network", e)
+                    toastLv.postValue(e.message)
+                }
+            })
+
+    }
+
+    fun joinNetwork(network: NetworkData?) {
+        val deviceUUID = repository.getDeviceUUID()
+        if (deviceUUID != null && network?.uuid != null) {
+            repository.joinNetwork(network.uuid, deviceUUID)
+                .subscribeOn(Schedulers.io())
+
+                // start service after joined network
+                .doOnSuccess { response ->
+                    repository.setNetworkInfo(response.data)
+                    joinedNetworkLv.postValue(response.data)
+                    repository.setLatestJoinedNetworkUUID(network.uuid)
+                }
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : SingleObserver<JoinNetworkResponse> {
+                    override fun onSubscribe(d: Disposable) {
+                        loadingLv.postValue(true)
+                    }
+
+                    override fun onSuccess(t: JoinNetworkResponse) {
+                        loadingLv.postValue(false)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        loadingLv.postValue(false)
+                        OmniLog.e("error on join network", e)
+                        toastLv.postValue(e.message)
+                    }
+                })
+
+        } else {
+            toastLv.postValue(App.instance.getString(R.string.invalid_token))
+            logoutLv.postValue(true)
         }
-        val body = JSONObject().apply {
-            put("instanceID", instanceIdVal)
-            put("name", deviceNameVal)
-            put("userAgent", userAgent)
-            put("description", "${Build.BRAND} ${Build.MODEL} OS:${Build.VERSION.RELEASE}")
-            put("publicKey", "asdfsadfasdf")
-        }
-        dataRepository.fetchDeviceListData(body).subscribeOn(Schedulers.io()).subscribe(observer)
     }
 
-    fun deviceList(): LiveData<DeviceListData> {
-        return deviceListDataLv
+    fun clearNetwork() {
+        joinedNetworkLv.postValue(null)
     }
 
-    fun connectStatus(): LiveData<Boolean> {
-        return lvConnectStatus
-    }
-
-    fun loading(): LiveData<Boolean> {
-        return loadingLv
-    }
 }
 
-private val deviceNameVal: String by lazy {
-    var result: String = App.sp.getString("device_name", "") ?: ""
-    if (result.isEmpty()) {
-        OmniLog.d("emptyDeviceName")
-        result = try {
-            Settings.Global.getString(App.instance.contentResolver, Settings.Global.DEVICE_NAME)
-        } catch (e: Exception) {
-            ""
-        }
-        App.sp.edit().putString("device_name", result).apply()
-    }
-    result
-}
+private val deviceNameVal = App.repository.getDeviceName()
 
-private val instanceIdVal : String by lazy {
+private val instanceIdVal: String by lazy {
     var result: String = App.sp.getString("instance_id", "") ?: ""
     if (result.isEmpty()) {
         OmniLog.d("emptyInstanceId")
@@ -444,7 +560,7 @@ private val instanceIdVal : String by lazy {
     result
 }
 
-private val macAddressVal : String by lazy {
+private val macAddressVal: String by lazy {
     var result: String = App.sp.getString("mac_address", "") ?: ""
     if (result.isEmpty()) {
         val macAddress = SensitiveUtils.getMacAddress(App.instance)
@@ -457,5 +573,3 @@ private val macAddressVal : String by lazy {
     }
     result
 }
-
-private val userAgent = "Android"

@@ -1,19 +1,12 @@
 package io.omniedge.data
 
-import android.app.Activity
 import android.content.Context
 import android.util.Log
-import com.amazonaws.mobile.client.UserStateDetails
-import com.amplifyframework.auth.AuthProvider
-import com.amplifyframework.auth.options.AuthSignOutOptions
-import com.amplifyframework.auth.options.AuthSignUpOptions
-import com.amplifyframework.auth.options.AuthWebUISignInOptions
-import com.amplifyframework.auth.result.AuthSignInResult
-import com.amplifyframework.auth.result.AuthSignUpResult
-import io.omniedge.DeviceListData
+import io.omniedge.BuildConfig
 import io.omniedge.SingletonHolder
+import io.omniedge.data.bean.*
+import io.omniedge.util.NetConfig
 import io.reactivex.Single
-import org.json.JSONObject
 
 /**
  * Created on 2019-12-22 11:24
@@ -21,7 +14,10 @@ import org.json.JSONObject
  */
 class DataRepository private constructor(private val context: Context) {
 
-    private val amplifyDataSource = AmplifyDataSource()
+    private val remoteDataSource = RemoteDataSource(
+        NetConfig.provideRetrofit(BuildConfig.BASE_URL).create(HttpApi::class.java)
+    )
+    private val localDataSource = LocalDataSource(context)
 
     companion object {
         private const val TAG = "DataRepository"
@@ -35,54 +31,86 @@ class DataRepository private constructor(private val context: Context) {
 
     }
 
-    fun checkAmplifyStatus(): Single<UserStateDetails> {
-        return amplifyDataSource.checkStatus()
-            .doOnSuccess {
-                Log.d(TAG, "check amplify status result:$it")
-            }
-    }
-
-    fun amplifySignIn(email: String?, password: String?): Single<AuthSignInResult> {
-        return amplifyDataSource.signIn(email, password)
+    fun login(email: String, password: String): Single<LoginResponse> {
+        return remoteDataSource.login(PasswordLogin(null, email, password))
             .doOnSuccess {
                 Log.d(TAG, "sign in result:$it")
             }
     }
 
-    fun amplifySignInWithSocialAccount(
-        provider: AuthProvider,
-        callingActivity: Activity,
-        options: AuthWebUISignInOptions? = null,
-    ): Single<AuthSignInResult> {
-        return amplifyDataSource.signInWithSocialAccount(provider, callingActivity, options)
-            .doOnSuccess {
-                Log.d(TAG, "sign in with social result:$it")
-            }
+    fun updateToken(token: String?) {
+        localDataSource.updateToken(token)
     }
 
-    fun amplifySignUp(
-        email: String,
-        password: String,
-        options: AuthSignUpOptions = AuthSignUpOptions.builder().build()
-    ): Single<AuthSignUpResult> {
-        return amplifyDataSource.signUp(email, password, options)
-            .doOnSuccess {
-                Log.d(TAG, "sign up result:$it")
-            }
+    fun getToken(): String? {
+        return localDataSource.getToken()
     }
 
-    fun amplifySignOut(
-        options: AuthSignOutOptions? = null
-    ): Single<Boolean> {
-        return amplifyDataSource.signOut(options)
-            .doOnSuccess {
-                Log.d(TAG, "sign out result:$it")
-            }
+    fun retrieveProfile(): Single<Response> {
+        return remoteDataSource.retrieveProfile()
     }
 
-    fun fetchDeviceListData(body: JSONObject): Single<DeviceListData> {
-        return amplifyDataSource.fetchDeviceListData(body)
+    fun listDevices(): Single<Response> {
+        return remoteDataSource.listDevices()
     }
 
+    fun registerDevice(device: RegisterDevice): Single<RegisterDeviceResponse> {
+        return remoteDataSource.registerDevice(device)
+    }
 
+    fun getDeviceName(): String {
+        return localDataSource.deviceName
+    }
+
+    fun getDeviceUUID(): String? {
+        return localDataSource.getDeviceUUID()
+    }
+
+    fun getOSInfo(): String {
+        return localDataSource.osInfo
+    }
+
+    fun updateDeviceUUID(uuid: String) {
+        localDataSource.updateDeviceUUID(uuid)
+    }
+
+    fun getHardwareUUID(): String {
+        return localDataSource.getHardwareUUID()
+    }
+
+    fun listNetworks(): Single<ListNetworkResponse> {
+        return remoteDataSource.listNetworks()
+    }
+
+    fun joinNetwork(networkUUID: String, deviceUUID: String): Single<JoinNetworkResponse> {
+        return remoteDataSource.joinNetwork(networkUUID, deviceUUID)
+    }
+
+    fun updateCommunityName(communityName: String) {
+        localDataSource.updateCommunityName(communityName)
+    }
+
+    fun updateSecretKey(secretKey: String) {
+        localDataSource.updateSecretKey(secretKey)
+    }
+
+    fun updateSubnetMask(subnetMask: String) {
+        localDataSource.updateSubnetMask(subnetMask)
+    }
+
+    fun updateVirtualIP(virtualIp: String) {
+        localDataSource.updateVirtualIP(virtualIp)
+    }
+
+    fun setNetworkInfo(networkData: JoinNetworkData) {
+        localDataSource.setNetworkInfo(networkData)
+    }
+
+    fun getLatestJoinedNetworkUUID(): String? {
+        return localDataSource.getLatestJoinedNetworkUUID()
+    }
+
+    fun setLatestJoinedNetworkUUID(uuid: String) {
+        localDataSource.setLatestJoinedNetworkUUID(uuid)
+    }
 }

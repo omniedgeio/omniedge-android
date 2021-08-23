@@ -1,11 +1,5 @@
 package io.omniedge;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-
-import io.omniedge.n2n.model.N2NSettingModel;
-
 /**
  * Created by cypdev@outlook.com
  * <br/> Date: 12/12/20
@@ -15,13 +9,12 @@ import io.omniedge.n2n.model.N2NSettingModel;
 public class DemoConfig {
     static int version = 1;
     static String netmask = "255.255.255.0";
-    static String superNode = BuildConfig.SUPER_NODE;
     static boolean moreSettings = false;
     static String superNodeBackup = "";
     static int mtu = 1386;
     static String localIP = "";
     static int holePunchInterval = 20;
-    static boolean resoveSupernodeIP = false;
+    static boolean resolveSupernodeIP = false;
     static int localPort = 0;
     static boolean allowRouting = false;
     static boolean dropMuticast = true;

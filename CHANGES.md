@@ -1,5 +1,10 @@
 # Change log for OmniEdge Android
 
+## Version 0.2.0
+
+* Removed Amplify components.
+* Upgraded backend APIs.
+
 ## Version 0.1.3
 
 * Added landscape mode.
@@ -7,7 +12,7 @@
 
 ## Version 0.1.2
 
-* Removed unused libraries & views.
+* Removed unused libraries & views.:
 
 ## Version 0.1.1
 

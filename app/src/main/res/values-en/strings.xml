@@ -51,5 +51,9 @@
     <string name="browser_missing">Browser not found. Please install a browser before next step.</string>
     <string name="click_to_retry">click to retry</string>
     <string name="ping_devices">Ping Devices</string>
-
+    <string name="slogan">Connect without concern at\nany platform, anytime, anywhere.</string>
+    <string name="email_continue_hint">or continue with email</string>
+    <string name="forget_password"><u>forget password</u></string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="invalid_token">Invalid Token</string>
 </resources>

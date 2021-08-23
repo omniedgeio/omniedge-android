@@ -2,10 +2,13 @@ package io.omniedge
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
+import com.google.gson.Gson
+import io.omniedge.data.bean.Response
 import io.reactivex.CompletableObserver
 import io.reactivex.Observer
 import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
+import retrofit2.HttpException
 
 /**
  * Created on 2019-12-22 11:50
@@ -13,6 +16,7 @@ import io.reactivex.disposables.Disposable
  */
 open class BusObserver<T>(private val pageView: PageView) :
     SingleObserver<T>, CompletableObserver, Observer<T> {
+    private val gson = Gson()
 
     override fun onNext(t: T) {
         setScreenOrientationLock(false)
@@ -60,6 +64,19 @@ open class BusObserver<T>(private val pageView: PageView) :
         setScreenOrientationLock(false)
         LoadingDialogUtils.hideLoading()
         e.printStackTrace()
+        if (e is HttpException) {
+            try {
+                val body = e.response()?.errorBody()?.string()
+                if (body != null) {
+                    val response = gson.fromJson(body, Response::class.java)
+                    if (response?.message != null) {
+                        pageView.showToast(response.message)
+                        return
+                    }
+                }
+            } catch (e: Exception) {
+            }
+        }
         val errorMsg = e.message
         if (errorMsg != null) {
             pageView.showToast(errorMsg)

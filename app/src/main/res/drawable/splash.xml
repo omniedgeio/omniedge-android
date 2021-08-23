@@ -7,16 +7,27 @@
     </item>
 
     <item
-        android:width="200dp"
-        android:height="200dp"
+        android:width="230dp"
+        android:height="230dp"
         android:drawable="@drawable/ic_omniedge"
         android:gravity="center_horizontal|top"
-        android:top="200dp" />
+        android:top="100dp" />
 
     <item
+        android:width="260dp"
+        android:height="55dp"
+        android:drawable="@drawable/ic_omniedge_text"
+        android:gravity="center_horizontal|top"
+        android:left="50dp"
+        android:right="50dp"
+        android:top="380dp" />
+
+    <item
+        android:width="260dp"
+        android:height="55dp"
         android:drawable="@drawable/ic_slogan"
         android:gravity="center_horizontal|top"
         android:left="50dp"
         android:right="50dp"
-        android:top="450dp" />
+        android:top="500dp" />
 </layer-list>
