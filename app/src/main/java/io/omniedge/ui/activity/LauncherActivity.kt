@@ -20,16 +20,16 @@ class LauncherActivity : BaseActivity() {
 
         lifecycleScope.launch {
             delay(1000)
-            if (App.repository.getToken().isNullOrBlank()) launchSignIn() else launch()
+            if (App.repository.getToken().isNullOrBlank()) launchLogin() else launchMain()
             finish()
         }
     }
 
-    private fun launchSignIn() {
-        startActivity(Intent(this@LauncherActivity, SignInActivity::class.java))
+    private fun launchLogin() {
+        startActivity(Intent(this@LauncherActivity, LoginActivity::class.java))
     }
 
-    private fun launch() {
+    private fun launchMain() {
         startActivity(Intent(this@LauncherActivity, DeviceListActivity::class.java))
     }
 }

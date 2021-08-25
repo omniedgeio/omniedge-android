@@ -113,4 +113,8 @@ class DataRepository private constructor(private val context: Context) {
     fun setLatestJoinedNetworkUUID(uuid: String) {
         localDataSource.setLatestJoinedNetworkUUID(uuid)
     }
+
+    fun register(registerInfo: Register): Single<Response> {
+        return remoteDataSource.register(registerInfo)
+    }
 }

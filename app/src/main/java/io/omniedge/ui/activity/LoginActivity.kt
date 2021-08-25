@@ -9,28 +9,28 @@ import io.omniedge.BusObserver
 import io.omniedge.DeviceListActivity
 import io.omniedge.R
 import io.omniedge.data.bean.LoginResponse
-import io.omniedge.databinding.ActivitySignInBinding
+import io.omniedge.databinding.ActivityLoginBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import retrofit2.HttpException
 
-class SignInActivity : BaseActivity() {
+class LoginActivity : BaseActivity() {
     private companion object {
-        private const val TAG = "SignInActivity"
+        private const val TAG = "LoginActivity"
     }
 
-    private lateinit var binding: ActivitySignInBinding
+    private lateinit var binding: ActivityLoginBinding
     override fun getPageTitle(): Int {
-        return R.string.app_sign_in
+        return R.string.app_login
     }
 
     override fun getLayoutView(): View {
-        binding = ActivitySignInBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun init() {
         super.init()
-        binding.btnSignIn.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text?.toString()
             val password = binding.etPassword.text?.toString()
 
@@ -47,14 +47,15 @@ class SignInActivity : BaseActivity() {
             signIn(email, password)
         }
         binding.btnSignUp.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
         binding.etPassword.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener if (actionId == EditorInfo.IME_ACTION_DONE) {
-                binding.btnSignIn.callOnClick()
+                binding.btnLogin.callOnClick()
                 true
             } else false
         }
-        binding.googleSignIn.setOnClickListener {
+        binding.googleLogin.setOnClickListener {
 //            signInWithSocialAccount(AuthProvider.google())
         }
     }
@@ -67,7 +68,7 @@ class SignInActivity : BaseActivity() {
                 App.repository.updateToken(it.data?.token)
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : BusObserver<LoginResponse>(this@SignInActivity) {
+            .subscribe(object : BusObserver<LoginResponse>(this@LoginActivity) {
                 override fun loading(): Boolean {
                     return true
                 }
@@ -92,7 +93,7 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun launch() {
-        startActivity(Intent(this@SignInActivity, DeviceListActivity::class.java))
+        startActivity(Intent(this@LoginActivity, DeviceListActivity::class.java))
         finish()
     }
 }

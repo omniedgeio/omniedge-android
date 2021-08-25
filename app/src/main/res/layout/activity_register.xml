@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.SignInActivity">
+    tools:context=".ui.activity.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.activity.SignInActivity">
+        tools:context=".ui.activity.LoginActivity">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_left"
@@ -48,7 +48,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_logo" />
 
         <Button
-            android:id="@+id/google_sign_in"
+            android:id="@+id/google_login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -77,7 +77,37 @@
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@id/guideline_left"
             app:layout_constraintRight_toLeftOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/google_sign_in" />
+            app:layout_constraintTop_toBottomOf="@id/google_login" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/name_hint"
+            android:labelFor="@id/et_name"
+            app:layout_constraintBottom_toTopOf="@id/til_email"
+            app:layout_constraintHorizontal_weight="6"
+            app:layout_constraintLeft_toRightOf="@id/guideline_left"
+            app:layout_constraintRight_toLeftOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/iv_email_continue_hint"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:autofillHints="username"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName"
+                android:lines="1"
+                android:maxLines="1"
+                android:textSize="22sp"
+                tools:text="Chris Wilson" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_email"
@@ -85,11 +115,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="@string/email_hint"
+            android:labelFor="@id/et_email"
             app:layout_constraintBottom_toTopOf="@id/til_password"
             app:layout_constraintHorizontal_weight="6"
             app:layout_constraintLeft_toRightOf="@id/guideline_left"
             app:layout_constraintRight_toLeftOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/iv_email_continue_hint"
+            app:layout_constraintTop_toBottomOf="@id/til_name"
             app:layout_constraintVertical_chainStyle="packed">
 
             <EditText
@@ -114,7 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:hint="@string/password_hint"
-            app:layout_constraintBottom_toTopOf="@id/tv_forget_password"
+            app:layout_constraintBottom_toTopOf="@id/til_password_confirm"
             app:layout_constraintLeft_toRightOf="@id/guideline_left"
             app:layout_constraintRight_toLeftOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@id/til_email"
@@ -122,6 +153,33 @@
 
             <EditText
                 android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:autofillHints="password"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:maxLines="1"
+                android:textSize="22sp"
+                tools:text="testtest" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_password_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/password_confirm_hint"
+            app:layout_constraintBottom_toTopOf="@id/button_gap"
+            app:layout_constraintLeft_toRightOf="@id/guideline_left"
+            app:layout_constraintRight_toLeftOf="@id/guideline_right"
+            app:layout_constraintTop_toBottomOf="@id/til_password"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/et_password_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -135,41 +193,12 @@
                 tools:text="testtest" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/tv_forget_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:text="@string/forget_password"
-            app:layout_constraintBottom_toTopOf="@id/button_gap"
-            app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/til_password" />
-
         <Space
             android:id="@+id/button_gap"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            app:layout_constraintBottom_toTopOf="@id/btn_sign_in"
-            app:layout_constraintTop_toBottomOf="@id/tv_forget_password" />
-
-        <Button
-            android:id="@+id/btn_sign_in"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/normal_button_bg"
-            android:gravity="center"
-            android:lines="1"
-            android:maxLines="1"
-            android:text="@string/app_sign_in"
-            android:textColor="@color/colorWhite"
-            android:textSize="18sp"
-            android:typeface="monospace"
             app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
-            app:layout_constraintLeft_toRightOf="@id/guideline_left"
-            app:layout_constraintRight_toLeftOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/button_gap" />
+            app:layout_constraintTop_toBottomOf="@id/til_password_confirm" />
 
         <Button
             android:id="@+id/btn_sign_up"
@@ -181,14 +210,14 @@
             android:gravity="center"
             android:lines="1"
             android:maxLines="1"
-            android:text="@string/app_sign_up"
+            android:text="@string/app_register"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
             android:typeface="monospace"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/guideline_left"
             app:layout_constraintRight_toLeftOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/btn_sign_in" />
+            app:layout_constraintTop_toBottomOf="@id/button_gap" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

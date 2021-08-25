@@ -70,7 +70,12 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.SignInActivity"
+            android:name=".ui.activity.LoginActivity"
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.activity.RegisterActivity"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustPan" />
 

@@ -7,7 +7,7 @@ import retrofit2.http.*
 interface HttpApi {
 
     @POST("/api/auth/register")
-    fun register(): Single<Response>
+    fun register(@Body params: Register): Single<Response>
 
     @Headers("provider: password")
     @POST("/api/auth/login/password")

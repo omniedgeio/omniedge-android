@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 data class ActivatePasswordLogin(
     val password: String,
-    val confirmPassword: String,
+    @SerializedName("confirm_password") val confirmPassword: String,
 )
 
 data class ChangePassword(
     val oldPassword: String,
     val password: String,
-    val confirmPassword: String,
+    @SerializedName("confirm_password") val confirmPassword: String,
 )
 
 data class CreateNetwork(
@@ -25,13 +25,13 @@ data class LinkGoogleAccount(
 open class Login(authSessionUuid: String?)
 
 data class GoogleLogin(
-    val authSessionUuid: String?,
+    @SerializedName("auth_session_uuid") val authSessionUuid: String?,
     val idToken: String,
     val key: String,
 ) : Login(authSessionUuid)
 
 data class PasswordLogin(
-    val authSessionUuid: String?,
+    @SerializedName("auth_session_uuid") val authSessionUuid: String?,
     val email: String,
     val password: String,
 ) : Login(authSessionUuid)
@@ -40,7 +40,7 @@ data class Register(
     val name: String,
     val email: String,
     val password: String,
-    val confirmPassword: String
+    @SerializedName("confirm_password") val confirmPassword: String
 )
 
 data class RegisterDevice(
@@ -54,7 +54,7 @@ data class ResetPassword(val email: String)
 data class ResetPasswordVerify(
     val token: String,
     val password: String,
-    val confirmPassword: String,
+    @SerializedName("confirm_password") val confirmPassword: String,
 )
 
 data class UpdateDevice(

@@ -6,8 +6,8 @@ import retrofit2.http.Body
 
 class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
 
-    override fun register(): Single<Response> {
-        return httpApi.register()
+    override fun register(@Body params: Register): Single<Response> {
+        return httpApi.register(params)
     }
 
     override fun login(params: PasswordLogin): Single<LoginResponse> {

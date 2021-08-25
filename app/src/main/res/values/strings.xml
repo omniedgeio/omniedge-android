@@ -29,11 +29,12 @@
     <string name="server_name_empty">Server Name\'s empty</string>
     <string name="tap_ip_empty">Tap IP\'s empty</string>
     <string name="device_list">Device List</string>
-    <string name="app_sign_in">Sign in</string>
-    <string name="app_sign_up">Sign up</string>
+    <string name="app_login">Login</string>
+    <string name="app_register">Register</string>
     <string name="app_sign_in_with_google">Sign in with Google</string>
     <string name="email_hint">Email Address</string>
     <string name="password_confirm_mismatch">Password don\'t match.</string>
+    <string name="username_empty">User name empty</string>
     <string name="email_or_password_empty">Email or Password empty</string>
     <string name="password_short_length">Password length too short, 8 characters at least.</string>
     <string name="this_device">%s (This Device)</string>
@@ -55,4 +56,5 @@
     <string name="forget_password"><u>forget password</u></string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="invalid_token">Invalid Token</string>
+    <string name="name_hint">Name</string>
 </resources>

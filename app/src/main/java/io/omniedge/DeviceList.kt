@@ -26,7 +26,7 @@ import io.omniedge.n2n.model.EdgeStatus
 import io.omniedge.n2n.model.N2NSettingInfo
 import io.omniedge.ui.activity.BaseActivity
 import io.omniedge.ui.activity.HelpActivity
-import io.omniedge.ui.activity.SignInActivity
+import io.omniedge.ui.activity.LoginActivity
 import io.omniedge.ui.fragment.BaseFragment
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -170,7 +170,7 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
             DeviceListVm.clearNetwork()
             App.repository.updateToken(null)
             finish()
-            startActivity(Intent(this, SignInActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
         }
 
         signOutBlock()
@@ -211,17 +211,24 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_VPN && resultCode == RESULT_OK) {
-            DeviceListVm.joinedNetwork().value?.let {
-                val intent = Intent(this, N2NService::class.java)
-                val bundle = Bundle()
-                val n2NSettingModel =
-                    it.toN2NSettingModel(1, deviceNameVal, macAddressVal)
-                val n2NSettingInfo = N2NSettingInfo(n2NSettingModel)
-                bundle.putParcelable("n2nSettingInfo", n2NSettingInfo)
-                intent.putExtra("Setting", bundle)
-            }?.also {
-                startService(it)
+        if (requestCode == REQUEST_CODE_VPN) {
+            when (resultCode) {
+                RESULT_OK -> {
+                    DeviceListVm.joinedNetwork().value?.let {
+                        val intent = Intent(this, N2NService::class.java)
+                        val bundle = Bundle()
+                        val n2NSettingModel =
+                            it.toN2NSettingModel(1, deviceNameVal, macAddressVal)
+                        val n2NSettingInfo = N2NSettingInfo(n2NSettingModel)
+                        bundle.putParcelable("n2nSettingInfo", n2NSettingInfo)
+                        intent.putExtra("Setting", bundle)
+                    }?.also {
+                        startService(it)
+                    }
+                }
+                else -> {
+                    DeviceListVm.connectStatus().postValue(false)
+                }
             }
         }
     }

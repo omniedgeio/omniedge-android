@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.SignInActivity">
+    tools:context=".ui.activity.LoginActivity">
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -154,7 +154,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_sign_in"
+        android:id="@+id/btn_login"
         style="?android:attr/selectableItemBackground"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -164,7 +164,7 @@
         android:gravity="center"
         android:lines="1"
         android:maxLines="1"
-        android:text="@string/app_sign_in"
+        android:text="@string/app_login"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         android:typeface="monospace"
@@ -185,17 +185,17 @@
         android:lines="1"
         android:maxLines="1"
         android:padding="5dp"
-        android:text="@string/app_sign_up"
+        android:text="@string/app_register"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         android:typeface="monospace"
-        app:layout_constraintBottom_toTopOf="@id/google_sign_in"
+        app:layout_constraintBottom_toTopOf="@id/google_login"
         app:layout_constraintLeft_toRightOf="@id/guideline_middle"
         app:layout_constraintRight_toLeftOf="@id/guideline_right"
-        app:layout_constraintTop_toBottomOf="@id/btn_sign_in" />
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/google_sign_in"
+        android:id="@+id/google_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
