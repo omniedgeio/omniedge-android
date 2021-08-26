@@ -1,7 +1,9 @@
 package io.omniedge.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -11,6 +13,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import io.omniedge.PageView
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.include_toolbar.*
@@ -115,4 +118,15 @@ abstract class BaseActivity : AppCompatActivity(), PageView {
         return true
     }
 
+}
+
+fun Context.launch(cls: Class<*>, finish: Boolean = false) {
+    startActivity(Intent(this, cls))
+    if (finish) {
+        if (this is Activity) {
+            finish()
+        } else if (this is Fragment) {
+            requireActivity().finish()
+        }
+    }
 }

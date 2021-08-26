@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import io.omniedge.data.DataRepository
 import io.omniedge.data.bean.*
 import io.omniedge.n2n.N2NService
@@ -171,6 +173,13 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
             App.repository.updateToken(null)
             finish()
             startActivity(Intent(this, LoginActivity::class.java))
+
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(BuildConfig.CLIENT_ID)
+                .requestEmail()
+                .build()
+            val client = GoogleSignIn.getClient(this, gso)
+            client.signOut()
         }
 
         signOutBlock()

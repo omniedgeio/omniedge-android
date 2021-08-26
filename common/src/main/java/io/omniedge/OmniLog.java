@@ -46,6 +46,10 @@ public class OmniLog {
         logger.e(msg, t);
     }
 
+    public static void i(String msg) {
+        logger.i(msg, null);
+    }
+
     public static void i(String msg, Throwable t) {
         logger.i(msg, t);
     }

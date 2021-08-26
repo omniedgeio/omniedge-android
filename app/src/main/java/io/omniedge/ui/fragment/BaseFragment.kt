@@ -34,8 +34,16 @@ abstract class BaseFragment : Fragment(), PageView {
     }
 
     @LayoutRes
-    open fun getLayoutRes(): Int {
+    protected open fun getLayoutRes(): Int {
         return -1
+    }
+
+    protected open fun getLayoutView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return null
     }
 
     @SuppressLint("ResourceType")
@@ -49,11 +57,21 @@ abstract class BaseFragment : Fragment(), PageView {
             return inflater.inflate(getLayoutRes(), container, false)
         }
 
+        val layoutRes = getLayoutRes()
+        if (layoutRes > 0) {
+            return inflater.inflate(layoutRes, container, false)
+        } else {
+            val layoutView = getLayoutView(inflater, container, savedInstanceState)
+            if (layoutView != null) {
+                return layoutView
+            }
+        }
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun getCurContext(): Context {
-        return context!!
+        return requireContext()
     }
 
     override fun compositeDisposable(): CompositeDisposable {
