@@ -4,7 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 data class Response(
     val message: String?,
+    val errors: ErrorData?,
 )
+
+data class ErrorData(val password: String?)
 
 data class LoginResponse(
     val message: String?,

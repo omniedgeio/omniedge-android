@@ -57,4 +57,5 @@
     <string name="continue_with_google">Continue with Google</string>
     <string name="invalid_token">Invalid Token</string>
     <string name="name_hint">Name</string>
+    <string name="send_instruction">Send Instruction</string>
 </resources>

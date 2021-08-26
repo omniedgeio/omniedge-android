@@ -168,13 +168,13 @@
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         android:typeface="monospace"
-        app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
+        app:layout_constraintBottom_toTopOf="@id/btn_register"
         app:layout_constraintLeft_toRightOf="@id/guideline_middle"
         app:layout_constraintRight_toLeftOf="@id/guideline_right"
         app:layout_constraintTop_toTopOf="@id/guideline_top" />
 
     <Button
-        android:id="@+id/btn_sign_up"
+        android:id="@+id/btn_register"
         style="?android:attr/selectableItemBackground"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -209,6 +209,6 @@
         app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
         app:layout_constraintLeft_toRightOf="@id/guideline_middle"
         app:layout_constraintRight_toLeftOf="@id/guideline_right"
-        app:layout_constraintTop_toBottomOf="@id/btn_sign_up" />
+        app:layout_constraintTop_toBottomOf="@id/btn_register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

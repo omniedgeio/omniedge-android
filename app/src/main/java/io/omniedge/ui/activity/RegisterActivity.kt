@@ -16,7 +16,7 @@ import retrofit2.HttpException
 
 class RegisterActivity : BaseActivity() {
     private companion object {
-        private const val TAG = "SignUpActivity"
+        private const val TAG = "RegisterActivity"
     }
 
     private lateinit var binding: ActivityRegisterBinding
@@ -28,7 +28,7 @@ class RegisterActivity : BaseActivity() {
 
     override fun init() {
         super.init()
-        binding.btnSignUp.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             val name = binding.etName.text?.toString()
             val email = binding.etEmail.text?.toString()
             val password = binding.etPassword.text?.toString()
@@ -58,7 +58,7 @@ class RegisterActivity : BaseActivity() {
         }
         binding.etPasswordConfirm.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener if (actionId == EditorInfo.IME_ACTION_DONE) {
-                binding.btnSignUp.callOnClick()
+                binding.btnRegister.callOnClick()
                 true
             } else false
         }

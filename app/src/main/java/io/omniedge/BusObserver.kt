@@ -69,6 +69,10 @@ open class BusObserver<T>(private val pageView: PageView) :
                 val body = e.response()?.errorBody()?.string()
                 if (body != null) {
                     val response = gson.fromJson(body, Response::class.java)
+                    if (response?.errors?.password != null) {
+                        pageView.showToast(response.errors.password)
+                        return
+                    }
                     if (response?.message != null) {
                         pageView.showToast(response.message)
                         return

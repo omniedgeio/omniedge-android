@@ -31,11 +31,43 @@ class DataRepository private constructor(private val context: Context) {
 
     }
 
+    fun register(registerInfo: Register): Single<Response> {
+        return remoteDataSource.register(registerInfo)
+    }
+
     fun login(email: String, password: String): Single<LoginResponse> {
         return remoteDataSource.login(PasswordLogin(null, email, password))
             .doOnSuccess {
                 Log.d(TAG, "sign in result:$it")
             }
+    }
+
+    fun loginWithGoogle(idToken: String): Single<LoginResponse> {
+        return remoteDataSource.loginWithGoogle(GoogleLogin(null, idToken))
+    }
+
+    fun resetPassword(email: String): Single<Response> {
+        return remoteDataSource.resetPassword(ResetPassword(email))
+    }
+
+    fun listDevices(): Single<Response> {
+        return remoteDataSource.listDevices()
+    }
+
+    fun retrieveProfile(): Single<Response> {
+        return remoteDataSource.retrieveProfile()
+    }
+
+    fun registerDevice(device: RegisterDevice): Single<RegisterDeviceResponse> {
+        return remoteDataSource.registerDevice(device)
+    }
+
+    fun listNetworks(): Single<ListNetworkResponse> {
+        return remoteDataSource.listNetworks()
+    }
+
+    fun joinNetwork(networkUUID: String, deviceUUID: String): Single<JoinNetworkResponse> {
+        return remoteDataSource.joinNetwork(networkUUID, deviceUUID)
     }
 
     fun updateToken(token: String?) {
@@ -44,18 +76,6 @@ class DataRepository private constructor(private val context: Context) {
 
     fun getToken(): String? {
         return localDataSource.getToken()
-    }
-
-    fun retrieveProfile(): Single<Response> {
-        return remoteDataSource.retrieveProfile()
-    }
-
-    fun listDevices(): Single<Response> {
-        return remoteDataSource.listDevices()
-    }
-
-    fun registerDevice(device: RegisterDevice): Single<RegisterDeviceResponse> {
-        return remoteDataSource.registerDevice(device)
     }
 
     fun getDeviceName(): String {
@@ -76,14 +96,6 @@ class DataRepository private constructor(private val context: Context) {
 
     fun getHardwareUUID(): String {
         return localDataSource.getHardwareUUID()
-    }
-
-    fun listNetworks(): Single<ListNetworkResponse> {
-        return remoteDataSource.listNetworks()
-    }
-
-    fun joinNetwork(networkUUID: String, deviceUUID: String): Single<JoinNetworkResponse> {
-        return remoteDataSource.joinNetwork(networkUUID, deviceUUID)
     }
 
     fun updateCommunityName(communityName: String) {
@@ -112,9 +124,5 @@ class DataRepository private constructor(private val context: Context) {
 
     fun setLatestJoinedNetworkUUID(uuid: String) {
         localDataSource.setLatestJoinedNetworkUUID(uuid)
-    }
-
-    fun register(registerInfo: Register): Single<Response> {
-        return remoteDataSource.register(registerInfo)
     }
 }

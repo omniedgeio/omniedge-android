@@ -27,7 +27,6 @@ open class Login(authSessionUuid: String?)
 data class GoogleLogin(
     @SerializedName("auth_session_uuid") val authSessionUuid: String?,
     val idToken: String,
-    val key: String,
 ) : Login(authSessionUuid)
 
 data class PasswordLogin(

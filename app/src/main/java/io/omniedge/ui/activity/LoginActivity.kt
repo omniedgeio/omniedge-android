@@ -4,14 +4,21 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import io.omniedge.App
-import io.omniedge.BusObserver
-import io.omniedge.DeviceListActivity
-import io.omniedge.R
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
+import io.omniedge.*
 import io.omniedge.data.bean.LoginResponse
 import io.omniedge.databinding.ActivityLoginBinding
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import retrofit2.HttpException
+
 
 class LoginActivity : BaseActivity() {
     private companion object {
@@ -19,6 +26,9 @@ class LoginActivity : BaseActivity() {
     }
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var client: GoogleSignInClient
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+
     override fun getPageTitle(): Int {
         return R.string.app_login
     }
@@ -34,7 +44,7 @@ class LoginActivity : BaseActivity() {
             val email = binding.etEmail.text?.toString()
             val password = binding.etPassword.text?.toString()
 
-            if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
+            if (email.isNullOrBlank() || password.isNullOrEmpty()) {
                 toast(R.string.email_or_password_empty)
                 return@setOnClickListener
             }
@@ -46,7 +56,7 @@ class LoginActivity : BaseActivity() {
 
             signIn(email, password)
         }
-        binding.btnSignUp.setOnClickListener {
+        binding.btnRegister.setOnClickListener {
             startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
         binding.etPassword.setOnEditorActionListener { _, actionId, _ ->
@@ -56,17 +66,66 @@ class LoginActivity : BaseActivity() {
             } else false
         }
         binding.googleLogin.setOnClickListener {
-//            signInWithSocialAccount(AuthProvider.google())
+            signInWithGoogle()
         }
+        binding.tvForgetPassword?.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, ResetPasswordActivity::class.java))
+        }
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(BuildConfig.CLIENT_ID)
+            .requestEmail()
+            .build()
+        client = GoogleSignIn.getClient(this, gso)
+
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                handleSignInResult(task)
+            }
     }
 
+    private fun signInWithGoogle() {
+        resultLauncher.launch(client.signInIntent)
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account: GoogleSignInAccount = completedTask.getResult(ApiException::class.java)
+
+            // Signed in successfully, show authenticated UI.
+            OmniLog.d("sign in result:$account")
+            val idToken = account.idToken
+            if (idToken != null) {
+                App.repository
+                    .loginWithGoogle(idToken)
+                    .handleLoginResult()
+            } else {
+                showToast(getString(R.string.invalid_token))
+            }
+        } catch (e: ApiException) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.statusCode)
+            showToast("SignInResult:failed code=${e.statusCode}")
+        }
+    }
 
     private fun signIn(email: String, password: String) {
         App.repository
             .login(email, password)
-            .doOnSuccess {
-                App.repository.updateToken(it.data?.token)
-            }
+            .handleLoginResult()
+    }
+
+    private fun launch() {
+        startActivity(Intent(this@LoginActivity, DeviceListActivity::class.java))
+        finish()
+    }
+
+    private fun Single<LoginResponse>.handleLoginResult() {
+        this.doOnSuccess {
+            App.repository.updateToken(it.data?.token)
+        }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : BusObserver<LoginResponse>(this@LoginActivity) {
                 override fun loading(): Boolean {
@@ -90,10 +149,5 @@ class LoginActivity : BaseActivity() {
                     }
                 }
             })
-    }
-
-    private fun launch() {
-        startActivity(Intent(this@LoginActivity, DeviceListActivity::class.java))
-        finish()
     }
 }

@@ -14,12 +14,12 @@ class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
         return httpApi.login(params)
     }
 
-    override fun googleLogin(params: GoogleLogin): Single<Response> {
-        return httpApi.googleLogin(params)
+    override fun loginWithGoogle(params: GoogleLogin): Single<LoginResponse> {
+        return httpApi.loginWithGoogle(params)
     }
 
-    override fun resetPassword(): Single<Response> {
-        return httpApi.resetPassword()
+    override fun resetPassword(params: ResetPassword): Single<Response> {
+        return httpApi.resetPassword(params)
     }
 
     override fun resetPasswordVerify(): Single<Response> {

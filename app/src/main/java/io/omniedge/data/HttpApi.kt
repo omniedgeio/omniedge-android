@@ -15,10 +15,10 @@ interface HttpApi {
 
     @Headers("provider: google")
     @POST("/api/auth/login/google")
-    fun googleLogin(@Body params: GoogleLogin): Single<Response>
+    fun loginWithGoogle(@Body params: GoogleLogin): Single<LoginResponse>
 
     @POST("/api/auth/reset-password/code")
-    fun resetPassword(): Single<Response>
+    fun resetPassword(@Body params: ResetPassword): Single<Response>
 
     @POST("/api/auth/reset-password/verify")
     fun resetPasswordVerify(): Single<Response>
