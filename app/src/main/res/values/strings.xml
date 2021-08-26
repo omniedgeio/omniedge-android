@@ -33,7 +33,7 @@
     <string name="app_register">Register</string>
     <string name="app_sign_in_with_google">Sign in with Google</string>
     <string name="email_hint">Email Address</string>
-    <string name="password_confirm_mismatch">Password don\'t match.</string>
+    <string name="password_confirm_mismatch">Password and confirm password don\'t match.</string>
     <string name="username_empty">User name empty</string>
     <string name="email_or_password_empty">Email or Password empty</string>
     <string name="password_short_length">Password length too short, 8 characters at least.</string>
