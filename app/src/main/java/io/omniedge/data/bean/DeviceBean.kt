@@ -8,6 +8,11 @@ import kotlinx.android.parcel.Parcelize
  *
  */
 @Parcelize
-data class DeviceBean(val name: String?, val ip: String?, val port: String?, var time: String? = "0ms") :
+data class DeviceBean(
+    val name: String?,
+    val ip: String?,
+    val port: String?,
+    var time: String? = "0ms"
+) :
     Parcelable {
 }

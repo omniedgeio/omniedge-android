@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import io.omniedge.App
-import io.omniedge.DeviceListActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

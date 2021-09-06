@@ -3,6 +3,7 @@ package io.omniedge.ui.fragment
 import android.content.Context
 import io.omniedge.*
 import io.omniedge.data.bean.LoginResponse
+import io.omniedge.ui.activity.DeviceListActivity
 import io.omniedge.ui.activity.launch
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

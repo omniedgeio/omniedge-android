@@ -41,7 +41,7 @@
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
         <activity
-            android:name="io.omniedge.DeviceListActivity"
+            android:name="io.omniedge.ui.activity.DeviceListActivity"
             android:launchMode="singleTop" />
 
         <activity

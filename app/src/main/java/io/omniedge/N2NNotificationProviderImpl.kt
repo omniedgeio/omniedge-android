@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import io.omniedge.n2n.N2NNotificationProvider
 import io.omniedge.n2n.N2NNotificationProvider.Companion.notificationId
 import io.omniedge.n2n.N2NNotificationProvider.Companion.notificationManager
+import io.omniedge.ui.activity.DeviceListActivity
 
 class N2NNotificationProviderImpl : N2NNotificationProvider {
     override fun addNotification(context: Context) {

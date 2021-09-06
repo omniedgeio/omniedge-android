@@ -15,13 +15,7 @@ object NetConfig {
     private fun provideHttpClient(): OkHttpClient {
 
         return OkHttpClient.Builder()
-            .also {
-                if (BuildConfig.DEBUG) {
-                    val loggingInterceptor = HttpLoggingInterceptor()
-                    loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                    it.addInterceptor(loggingInterceptor)
-                }
-            }.addInterceptor { chain ->
+            .addInterceptor { chain ->
                 val token = App.repository.getToken()
                 var request = chain.request()
                 if (!token.isNullOrBlank()) {
@@ -31,6 +25,12 @@ object NetConfig {
                 }
 
                 chain.proceed(request)
+            }.also {
+                if (BuildConfig.DEBUG) {
+                    val loggingInterceptor = HttpLoggingInterceptor()
+                    loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+                    it.addInterceptor(loggingInterceptor)
+                }
             }.build()
     }
 

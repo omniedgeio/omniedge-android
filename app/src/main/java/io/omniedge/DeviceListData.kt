@@ -2,7 +2,6 @@ package io.omniedge
 
 import io.omniedge.data.bean.JoinNetworkData
 import io.omniedge.n2n.model.N2NSettingModel
-import org.json.JSONObject
 
 /**
 Created by chenyouping@bytedance.com
