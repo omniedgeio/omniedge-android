@@ -45,7 +45,7 @@ data class Register(
 data class RegisterDevice(
     val name: String,
     @SerializedName("hardware_uuid") val hardwareUUID: String,
-    val os: String,
+    val platform: String,
 )
 
 data class ResetPassword(val email: String)

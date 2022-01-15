@@ -172,7 +172,7 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceVh>() {
         networkData.clear()
         var index = 0
         val uuid = App.repository.getLatestJoinedNetworkUUID()
-        val deviceUUID = App.repository.getDeviceUUID()
+        val deviceID = App.repository.getDeviceUUID()
         networks.forEach { data ->
             var deviceJoined = false
             var deviceData: DeviceData? = null
@@ -180,14 +180,14 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceVh>() {
                 ListDeviceData(null, data, true, index++)
             networkData.add(listData)
             data.devices?.forEach {
-                if (it.uuid == deviceUUID) {
+                if (it.id == deviceID) {
                     deviceJoined = true
                     deviceData = it
                 }
                 networkData.add(ListDeviceData(it, null, false, index))
             }
             listData.joiningStatus =
-                if (uuid != null && uuid == data.uuid && deviceJoined) JoiningStatus.Joined else JoiningStatus.Unknown
+                if (uuid != null && uuid == data.id && deviceJoined) JoiningStatus.Joined else JoiningStatus.Unknown
             val finalDeviceData = deviceData ?: return@forEach
             if (listData.joiningStatus == JoiningStatus.Joined) {
                 DeviceListVm.currentNetwork()

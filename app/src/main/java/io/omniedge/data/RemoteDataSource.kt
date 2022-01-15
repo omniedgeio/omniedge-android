@@ -50,16 +50,16 @@ class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
         return httpApi.listDevices()
     }
 
-    override fun retrieveDevice(uuid: String): Single<Response> {
-        return httpApi.retrieveDevice(uuid)
+    override fun retrieveDevice(id: String): Single<Response> {
+        return httpApi.retrieveDevice(id)
     }
 
-    override fun updateDevice(uuid: String): Single<Response> {
-        return httpApi.updateDevice(uuid)
+    override fun updateDevice(id: String): Single<Response> {
+        return httpApi.updateDevice(id)
     }
 
-    override fun deleteDevice(uuid: String): Single<Response> {
-        return httpApi.deleteDevice(uuid)
+    override fun deleteDevice(id: String): Single<Response> {
+        return httpApi.deleteDevice(id)
     }
 
     override fun createNetwork(network: CreateNetwork): Single<Response> {
@@ -70,27 +70,27 @@ class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
         return httpApi.listNetworks()
     }
 
-    override fun retrieveNetwork(uuid: String): Single<Response> {
-        return httpApi.retrieveNetwork(uuid)
+    override fun retrieveNetwork(id: String): Single<Response> {
+        return httpApi.retrieveNetwork(id)
     }
 
-    override fun updateNetwork(uuid: String): Single<Response> {
-        return httpApi.updateNetwork(uuid)
+    override fun updateNetwork(id: String): Single<Response> {
+        return httpApi.updateNetwork(id)
     }
 
-    override fun deleteNetwork(uuid: String): Single<Response> {
-        return httpApi.deleteNetwork(uuid)
+    override fun deleteNetwork(id: String): Single<Response> {
+        return httpApi.deleteNetwork(id)
     }
 
     override fun removeDeviceFromNetwork(
-        networkUUID: String,
-        deviceUUID: String
+        networkID: String,
+        deviceID: String
     ): Single<Response> {
-        return httpApi.removeDeviceFromNetwork(networkUUID, deviceUUID)
+        return httpApi.removeDeviceFromNetwork(networkID, deviceID)
     }
 
-    override fun joinNetwork(networkUUID: String, deviceUUID: String): Single<JoinNetworkResponse> {
-        return httpApi.joinNetwork(networkUUID, deviceUUID)
+    override fun joinNetwork(networkID: String, deviceID: String): Single<JoinNetworkResponse> {
+        return httpApi.joinNetwork(networkID, deviceID)
     }
 }
 

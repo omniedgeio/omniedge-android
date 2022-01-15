@@ -72,7 +72,7 @@ object DeviceListVm {
         )
             .subscribeOn(Schedulers.io())
             .doOnSuccess { response ->
-                response.data?.uuid?.apply {
+                response.data?.id?.apply {
                     repository.updateDeviceUUID(this)
                 }
             }
@@ -122,16 +122,16 @@ object DeviceListVm {
     }
 
     fun joinNetwork(network: NetworkData?) {
-        val deviceUUID = repository.getDeviceUUID()
-        if (deviceUUID != null && network?.uuid != null) {
-            repository.joinNetwork(network.uuid, deviceUUID)
+        val deviceID = repository.getDeviceUUID()
+        if (deviceID != null && network?.id != null) {
+            repository.joinNetwork(network.id, deviceID)
                 .subscribeOn(Schedulers.io())
 
                 // start service after joined network
                 .doOnSuccess { response ->
                     repository.setNetworkInfo(response.data)
                     joinedNetworkLv.postValue(response.data)
-                    repository.setLatestJoinedNetworkUUID(network.uuid)
+                    repository.setLatestJoinedNetworkUUID(network.id)
                 }
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : SingleObserver<JoinNetworkResponse> {

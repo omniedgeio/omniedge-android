@@ -66,8 +66,8 @@ class DataRepository private constructor(private val context: Context) {
         return remoteDataSource.listNetworks()
     }
 
-    fun joinNetwork(networkUUID: String, deviceUUID: String): Single<JoinNetworkResponse> {
-        return remoteDataSource.joinNetwork(networkUUID, deviceUUID)
+    fun joinNetwork(networkID: String, deviceID: String): Single<JoinNetworkResponse> {
+        return remoteDataSource.joinNetwork(networkID, deviceID)
     }
 
     fun updateToken(token: String?) {

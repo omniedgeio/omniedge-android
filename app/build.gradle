@@ -26,7 +26,7 @@ android {
 
         // 是否启用SysTrace
         buildConfigField('boolean', 'ENABLE_SYSTRACE', "${rootProject.ext.enableSystrace}")
-        buildConfigField('String', 'BASE_URL', '"https://dev.omniedge.io"')
+        buildConfigField('String', 'BASE_URL', '"https://dev-api.omniedge.io"')
         buildConfigField('String', 'CLIENT_ID', '"1063377363469-5af0c79ipfg4vvld86bo55qa4cf05opu.apps.googleusercontent.com"')
     }
 
