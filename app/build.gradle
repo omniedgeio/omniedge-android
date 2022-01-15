@@ -26,10 +26,13 @@ android {
 
         // 是否启用SysTrace
         buildConfigField('boolean', 'ENABLE_SYSTRACE', "${rootProject.ext.enableSystrace}")
-        buildConfigField('String', 'BASE_URL', '"https://dev-api.omniedge.io"')
-        buildConfigField('String', 'CLIENT_ID', '"1063377363469-q6hvn0oudqconndlqeph4ijero6v5vh3.apps.googleusercontent.com"')
-        // dev   1063377363469-q6hvn0oudqconndlqeph4ijero6v5vh3.apps.googleusercontent.com
-        // prod   1063377363469-qs8mnrtqjrv57kl3360r3mf3f5fvs3n4.apps.googleusercontent.com
+        // dev
+//        buildConfigField('String', 'BASE_URL', '"https://dev-api.omniedge.io"')
+//        buildConfigField('String', 'CLIENT_ID', '"1063377363469-q6hvn0oudqconndlqeph4ijero6v5vh3.apps.googleusercontent.com"')
+
+        // prod
+        buildConfigField('String', 'BASE_URL', '"https://api.omniedge.io"')
+        buildConfigField('String', 'CLIENT_ID', '"1063377363469-qs8mnrtqjrv57kl3360r3mf3f5fvs3n4.apps.googleusercontent.com"')
     }
 
     signingConfigs {

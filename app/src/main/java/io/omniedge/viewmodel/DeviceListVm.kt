@@ -2,6 +2,7 @@ package io.omniedge.viewmodel
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import io.omniedge.App
 import io.omniedge.OmniLog
 import io.omniedge.R
@@ -17,6 +18,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
 
 
 object DeviceListVm {
@@ -108,6 +110,19 @@ object DeviceListVm {
                 override fun onError(e: Throwable) {
                     loadingLv.postValue(false)
                     OmniLog.e("error on list network", e)
+                    if (e is HttpException) {
+                        try {
+                            val body = e.response()?.errorBody()?.string()
+                            if (body != null) {
+                                val response = Gson().fromJson(body, Response::class.java)
+                                if (response?.message != null) {
+                                    toastLv.postValue(response.message)
+                                    return
+                                }
+                            }
+                        } catch (e: Exception) {
+                        }
+                    }
                     toastLv.postValue(e.message)
                 }
             })
