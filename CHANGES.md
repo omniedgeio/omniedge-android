@@ -1,4 +1,6 @@
 # Change log for OmniEdge Android
+## Version 0.2.1
+* Migrated to new backend APIs.
 
 ## Version 0.2.0
 
