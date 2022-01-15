@@ -52,7 +52,7 @@ interface HttpApi {
     fun deleteDevice(@Path("id") id: String): Single<Response>
 
     @POST("/api/v1/virtual-networks")
-    fun createNetwork(@Body network: CreateNetwork): Single<Response>
+    fun createNetwork(@Body network: CreateNetwork): Single<CreateNetworkResponse>
 
     @GET("/api/v1/virtual-networks")
     fun listNetworks(): Single<ListNetworkResponse>

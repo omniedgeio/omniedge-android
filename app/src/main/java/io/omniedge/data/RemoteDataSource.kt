@@ -62,7 +62,7 @@ class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
         return httpApi.deleteDevice(id)
     }
 
-    override fun createNetwork(network: CreateNetwork): Single<Response> {
+    override fun createNetwork(network: CreateNetwork): Single<CreateNetworkResponse> {
         return httpApi.createNetwork(network)
     }
 

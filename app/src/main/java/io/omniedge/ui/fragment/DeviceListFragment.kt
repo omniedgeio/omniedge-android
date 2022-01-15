@@ -147,11 +147,6 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceVh>() {
         val data = networkData[position]
         if (data.isNetworkData) {
             holder.rbNetwork?.text = data.network?.name
-//            holder.rbNetwork?.setOnCheckedChangeListener { _, isChecked ->
-//                if (isChecked && data.joiningStatus == JoiningStatus.Unknown) {
-//                    DeviceListVm.joinNetwork(data.network)
-//                }
-//            }
             holder.rbNetwork?.setOnClickListener {
                 if (holder.rbNetwork.isChecked && data.joiningStatus == JoiningStatus.Unknown) {
                     DeviceListVm.joinNetwork(data.network)

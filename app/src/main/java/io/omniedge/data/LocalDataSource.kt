@@ -38,10 +38,14 @@ class LocalDataSource(context: Context) {
     fun getHardwareUUID(): String {
         var uuid = sp.getString(KEY_HARDWARE_UUID, null)
         if (uuid.isNullOrEmpty()) {
-            uuid = UUID.randomUUID().toString()
+            uuid = generateUUID()
             sp.edit().putString(KEY_HARDWARE_UUID, uuid).apply()
         }
         return uuid
+    }
+
+    fun generateUUID(): String {
+        return UUID.randomUUID().toString()
     }
 
     fun updateDeviceUUID(uuid: String) {

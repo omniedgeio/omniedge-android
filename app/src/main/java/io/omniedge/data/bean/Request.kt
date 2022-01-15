@@ -15,7 +15,8 @@ data class ChangePassword(
 
 data class CreateNetwork(
     val name: String,
-    val serverUUID: String,
+    @SerializedName("ip_range") val ipRange: String,
+    @SerializedName("server_id") val serverID: String,
 )
 
 data class LinkGoogleAccount(

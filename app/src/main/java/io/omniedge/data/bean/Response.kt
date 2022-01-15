@@ -19,6 +19,7 @@ data class LoginResponse(
 data class RegisterDeviceResponse(val message: String?, val data: DeviceData?)
 data class ListNetworkResponse(val message: String?, val data: List<NetworkData> = arrayListOf())
 data class JoinNetworkResponse(val message: String?, val data: JoinNetworkData)
+data class CreateNetworkResponse(val message: String?, val data: NetworkData)
 
 data class DeviceData(
     val id: String,

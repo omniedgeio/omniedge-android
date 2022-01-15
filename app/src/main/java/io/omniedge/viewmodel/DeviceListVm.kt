@@ -11,6 +11,7 @@ import io.omniedge.data.bean.*
 import io.omniedge.n2n.event.StartEvent
 import io.omniedge.n2n.event.StopEvent
 import io.omniedge.n2n.event.SupernodeDisconnectEvent
+import io.reactivex.Single
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -78,6 +79,21 @@ object DeviceListVm {
             }
             // list networks
             .flatMap { repository.listNetworks() }
+            // create network if empty
+            .flatMap {
+                if (it.data.isEmpty()) {
+                    repository.createNetwork(
+                        // TODO: 2022/1/15 customize creation for network
+                        CreateNetwork(
+                            "network",
+                            "100.100.0.0/24",
+                            repository.generateUUID(),
+                        )
+                    ).flatMap { repository.listNetworks() }
+                } else {
+                    Single.just(it)
+                }
+            }
             .subscribe(object : SingleObserver<ListNetworkResponse> {
                 override fun onSubscribe(d: Disposable) {
                     loadingLv.postValue(true)
