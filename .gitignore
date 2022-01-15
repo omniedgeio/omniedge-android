@@ -31,6 +31,9 @@ out/
 release/
 debug/
 
+# memory dump files
+*.hprof
+
 # Gradle files
 .gradle/
 build/
