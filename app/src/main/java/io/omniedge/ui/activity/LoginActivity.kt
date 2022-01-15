@@ -77,7 +77,7 @@ class LoginActivity : BaseActivity() {
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.statusCode)
+            Log.w(TAG, "signInResult:failed code=${e.statusCode} message=${e.message}")
             showToast("SignInResult:failed code=${e.statusCode}")
         }
     }
