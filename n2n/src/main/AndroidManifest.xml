@@ -5,6 +5,7 @@
     <application>
         <service
             android:name=".N2NService"
+            android:exported="false"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
                 <action android:name="android.net.VPN_SERVICE" />

@@ -10,12 +10,11 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 31
     defaultConfig {
         applicationId "io.omniedge"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 31
         // xx_xx_xx
         versionCode 2_10
         // xx.xx.xxx_date
@@ -93,7 +92,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
     implementation "com.google.android.material:material:$material_version"
-    implementation "com.android.actionsheetdialog:actionsheet:$actionsheet_version"
+//    implementation "com.android.actionsheetdialog:actionsheet:$actionsheet_version"
     implementation "org.permissionsdispatcher:permissionsdispatcher:$permissionsdispatcher_version"
     kapt "org.permissionsdispatcher:permissionsdispatcher-processor:$permissionsdispatcher_version"
     implementation "com.wang.avi:library:2.1.3"

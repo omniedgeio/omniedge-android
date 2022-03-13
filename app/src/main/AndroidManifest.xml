@@ -21,11 +21,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!--友盟 SDK-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="io.omniedge.App"
@@ -43,19 +38,23 @@
 
         <activity
             android:name="io.omniedge.ui.activity.DeviceListActivity"
+            android:exported="false"
             android:launchMode="singleTop" />
 
         <activity
             android:name=".ui.activity.NodeSettingActivity"
+            android:exported="false"
             android:launchMode="singleTop" />
 
         <activity
             android:name=".ui.activity.HelpActivity"
+            android:exported="false"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".ui.activity.LauncherActivity"
+            android:exported="true"
             android:launchMode="singleInstance"
             android:theme="@style/LauncherTheme">
             <intent-filter>
@@ -72,11 +71,13 @@
 
         <activity
             android:name=".ui.activity.LoginActivity"
+            android:exported="false"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".ui.activity.ResetPasswordActivity"
+            android:exported="false"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustPan" />
 
