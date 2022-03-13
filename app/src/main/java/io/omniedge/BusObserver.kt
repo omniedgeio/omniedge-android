@@ -67,18 +67,35 @@ open class BusObserver<T>(private val pageView: PageView) :
         if (e is HttpException) {
             try {
                 val body = e.response()?.errorBody()?.string()
+                var message: String? = null
                 if (body != null) {
                     val response = gson.fromJson(body, Response::class.java)
-                    if (response?.errors?.password != null) {
-                        pageView.showToast(response.errors.password)
-                        return
+                    val error = response?.errors?.get(response.errors.keySet()?.firstOrNull())
+                    if (error != null) {
+                        if (error.isJsonPrimitive && error.asJsonPrimitive.isString) {
+                            message = error.asJsonPrimitive.asString
+                        } else if (error.isJsonObject) {
+                            val passwordJsonObject = error.asJsonObject
+                            val passwordErrorInfo = passwordJsonObject?.keySet()
+                                ?.firstOrNull {
+                                    passwordJsonObject[it].isJsonPrimitive
+                                            && passwordJsonObject[it].asJsonPrimitive.isString
+                                }
+                            if (passwordErrorInfo != null) {
+                                message = passwordJsonObject.get(passwordErrorInfo).asString
+                            }
+                        }
                     }
-                    if (response?.message != null) {
-                        pageView.showToast(response.message)
-                        return
+                    if (message == null && response.message != null) {
+                        message = response.message
                     }
                 }
+                if (message != null) {
+                    pageView.showToast(message)
+                    return
+                }
             } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
         val errorMsg = e.message

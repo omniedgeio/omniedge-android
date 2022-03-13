@@ -6,10 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import io.omniedge.PageView
 import io.reactivex.disposables.CompositeDisposable
 
@@ -21,15 +22,27 @@ abstract class BaseFragment : Fragment(), PageView {
 
     private val compositeDisposable = CompositeDisposable()
 
-    fun toast(@StringRes msg: Int) {
+    fun toast(view: View, @StringRes msg: Int) {
         activity?.runOnUiThread {
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+            Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
+                .apply {
+                    this.view
+                        .findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                        .maxLines = 5
+                }
+                .show()
         }
     }
 
-    private fun toast(msg: String) {
+    private fun toast(view: View, msg: String) {
         activity?.runOnUiThread {
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+            Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
+                .apply {
+                    this.view
+                        .findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                        .maxLines = 5
+                }
+                .show()
         }
     }
 
@@ -79,6 +92,6 @@ abstract class BaseFragment : Fragment(), PageView {
     }
 
     override fun showToast(msg: String) {
-        toast(msg)
+        toast(requireActivity().findViewById(android.R.id.content), msg)
     }
 }

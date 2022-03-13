@@ -1,10 +1,11 @@
 package io.omniedge.data.bean
 
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
 data class Response(
     val message: String?,
-    val errors: ErrorData?,
+    val errors: JsonObject?,
 )
 
 data class ErrorData(val password: String?)

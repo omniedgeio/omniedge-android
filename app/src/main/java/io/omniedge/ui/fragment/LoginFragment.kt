@@ -27,12 +27,12 @@ class LoginFragment : BaseLoginFragment() {
             val password = binding.etPassword.text?.toString()
 
             if (email.isNullOrBlank() || password.isNullOrEmpty()) {
-                toast(R.string.email_or_password_empty)
+                toast(it, R.string.email_or_password_empty)
                 return@setOnClickListener
             }
 
             if (password.length < 8) {
-                toast(R.string.password_short_length)
+                toast(it, R.string.password_short_length)
                 return@setOnClickListener
             }
 

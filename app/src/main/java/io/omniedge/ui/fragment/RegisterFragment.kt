@@ -25,22 +25,22 @@ class RegisterFragment : BaseLoginFragment() {
             val passwordConfirm = binding.etPasswordConfirm.text?.toString()
 
             if (name.isNullOrEmpty()) {
-                toast(R.string.username_empty)
+                toast(it, R.string.username_empty)
                 return@setOnClickListener
             }
 
             if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
-                toast(R.string.email_or_password_empty)
+                toast(it, R.string.email_or_password_empty)
                 return@setOnClickListener
             }
 
             if (password != passwordConfirm) {
-                toast(R.string.password_confirm_mismatch)
+                toast(it, R.string.password_confirm_mismatch)
                 return@setOnClickListener
             }
 
             if (password.length < 8) {
-                toast(R.string.password_short_length)
+                toast(it, R.string.password_short_length)
                 return@setOnClickListener
             }
 
