@@ -17,16 +17,31 @@ import io.omniedge.databinding.ActivityHelpBinding
 import io.omniedge.databinding.ItemHelpContentBinding
 import io.omniedge.databinding.ItemHelpTitleBinding
 
+private enum class MenuItem(val text: String, val title: Boolean = false) {
+    Help(getString(R.string.help), true),
+    HomePage(getString(R.string.home_page)),
+    Licenses(getString(R.string.licenses)),
+    Legal(getString(R.string.legal), true),
+    TermsOfService(getString(R.string.terms_of_service)),
+    PrivacyPolicy(getString(R.string.privacy_policy)),
+    About(getString(R.string.about), true),
+    Omniedge(getString(R.string.omniedge)),
+}
+
 private val items = listOf(
-    Item(getString(R.string.help), true),
-    Item(getString(R.string.home_page)),
-    Item(getString(R.string.licenses)),
-    Item(getString(R.string.legal), true),
-    Item(getString(R.string.terms_of_service)),
-    Item(getString(R.string.privacy_policy)),
-    Item(getString(R.string.about), true),
-    Item(getString(R.string.omniedge)),
+    MenuItem.Help,
+    MenuItem.HomePage,
+//    MenuItem.Licenses,
+    MenuItem.Legal,
+    MenuItem.TermsOfService,
+    MenuItem.PrivacyPolicy,
+    MenuItem.About,
+    MenuItem.Omniedge,
 )
+
+private const val HOME_PAGE_LINK = "https://omniedge.io"
+private const val TERMS_OF_SERVICE_LINK = "https://omniedge.io/terms"
+private const val PRIVACY_POLICY_LINK = "https://omniedge.io/privacy"
 
 class HelpActivity : BaseActivity() {
 
@@ -80,48 +95,67 @@ private class HelpListAdapter : RecyclerView.Adapter<ItemViewHolder>() {
 }
 
 private class ItemViewHolder(val binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: Item) {
+    fun bind(item: MenuItem) {
         if (item.title) {
             (binding as ItemHelpTitleBinding).title.text = item.name
-        } else {
-            val binding = binding as ItemHelpContentBinding
-            binding.title.text = item.name
-            when (items.indexOf(item)) {
-                1 -> { // home page
-                    binding.container.setOnClickListener {
-                        try {
-                            val intent = Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse(getString(R.string.home_page_link))
-                            )
-                            itemView.context.startActivity(intent)
-                        } catch (e: Exception) {
-                        }
-                    }
-                }
-                2 -> { // licenses
-                }
-                4 -> { // terms of service
-                }
-                5 -> { // privacy policy
-                }
-                7 -> { // omniedge
+            return
+        }
+        val binding = binding as ItemHelpContentBinding
+        binding.title.text = item.text
+        when (item) {
+            MenuItem.HomePage -> { // home page
+                binding.container.setOnClickListener {
                     try {
-                        val packageInfo = itemView.context.packageManager.getPackageInfo(
-                            itemView.context.packageName,
-                            0
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse(HOME_PAGE_LINK)
                         )
-                        binding.subTitle.visibility = View.VISIBLE
-                        binding.subTitle.text = packageInfo.versionName
+                        itemView.context.startActivity(intent)
                     } catch (e: Exception) {
                     }
                 }
             }
+            MenuItem.Licenses -> { // licenses
+            }
+            MenuItem.TermsOfService -> { // terms of service
+                binding.container.setOnClickListener {
+                    try {
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse(TERMS_OF_SERVICE_LINK)
+                        )
+                        itemView.context.startActivity(intent)
+                    } catch (e: Exception) {
+                    }
+                }
+            }
+            MenuItem.PrivacyPolicy -> { // privacy policy
+                binding.container.setOnClickListener {
+                    try {
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse(PRIVACY_POLICY_LINK)
+                        )
+                        itemView.context.startActivity(intent)
+                    } catch (e: Exception) {
+                    }
+                }
+            }
+            MenuItem.Omniedge -> { // omniedge
+                try {
+                    val packageInfo = itemView.context.packageManager.getPackageInfo(
+                        itemView.context.packageName,
+                        0
+                    )
+                    binding.subTitle.visibility = View.VISIBLE
+                    binding.subTitle.text = packageInfo.versionName
+                } catch (e: Exception) {
+                }
+            }
+            else -> {}
         }
     }
 
 }
-
-private data class Item(val name: String, val title: Boolean = false)
 
 fun getString(@StringRes resId: Int) = App.instance.getString(resId)

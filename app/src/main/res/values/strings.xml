@@ -46,7 +46,6 @@
     <string name="terms_of_service">Terms of service</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="omniedge">OmniEdge</string>
-    <string name="home_page_link" translatable="false">https://omniedge.io</string>
     <string name="community">Community</string>
     <string name="browser_missing">Browser not found. Please install a browser before next step.</string>
     <string name="click_to_retry">click to retry</string>
