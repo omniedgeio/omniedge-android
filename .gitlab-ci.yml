@@ -1,21 +1,19 @@
 image: jangrewe/gitlab-ci-android
 
-stages:
-- build
-
 before_script:
-- export GRADLE_USER_HOME=$(pwd)/.gradle
-- chmod +x ./gradlew
+  - chmod +x ./gradlew
 
-cache:
-  key: ${CI_PROJECT_ID}
-  paths:
-  - .gradle/
+stages:
+  - build
 
-build:
+assembleDebug:
   stage: build
   script:
-  - ./gradlew assembleDebug
+    - ./gradlew clean
+    - ./gradlew assembleDebug
   artifacts:
     paths:
-    - app/build/outputs/apk/app-debug.apk
+    - app/build/outputs/
+  only:
+    - master
+    - dev
