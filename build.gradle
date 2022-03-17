@@ -7,9 +7,9 @@ buildscript {
     }
 
     ext.enableSystrace = localProperties.getProperty('ENABLE_SYSTRACE', 'false') == 'true'
-    ext.signingKeyAlias = 'debug.jks'
-    ext.signingKeyPassword = 'jieqi'
-    ext.signingStoreFile = 'jieqi123456'
+    ext.signingKeyAlias = 'jieqi'
+    ext.signingKeyPassword = 'jieqi123456'
+    ext.signingStoreFile = 'debug.jks'
     ext.signingStorePassword = 'jieqi123456'
     ext.superNode = localProperties.getProperty('n2n.config.superNode')
 
