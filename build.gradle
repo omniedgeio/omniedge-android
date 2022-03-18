@@ -7,10 +7,10 @@ buildscript {
     }
 
     ext.enableSystrace = localProperties.getProperty('ENABLE_SYSTRACE', 'false') == 'true'
-    ext.signingKeyAlias = 'omniedge'
-    ext.signingKeyPassword = 'omniedgekJAdq4bn3G2uMfz'
+    ext.signingKeyAlias = 'jieqi'
+    ext.signingKeyPassword = 'jieqi123456'
     ext.signingStoreFile = 'debug.jks'
-    ext.signingStorePassword = 'omniedgekJAdq4bn3G2uMfz'
+    ext.signingStorePassword = 'jieqi123456'
     ext.superNode = localProperties.getProperty('n2n.config.superNode')
 
     ext.kotlin_version = '1.6.10'
