@@ -78,6 +78,7 @@
             android:lineSpacingExtra="2sp"
             android:textColor="@android:color/black"
             android:textSize="17sp"
+            android:textStyle="bold"
             tools:text="Lucy-iPhone" />
 
         <!-- 100.195.132.244 -->
@@ -90,8 +91,9 @@
             android:gravity="center_vertical"
             android:letterSpacing="-0.02"
             android:lineSpacingExtra="2sp"
-            android:textColor="#5d5c63"
+            android:textColor="#5D5C63"
             android:textSize="17sp"
+            android:textStyle="bold"
             tools:text="100.195.132.244" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -200,9 +202,12 @@
         android:layout_marginBottom="12dp"
         android:background="@android:color/white"
         android:enabled="false"
+        android:fontFamily="sans-serif-black"
         android:text="@string/ping_devices"
         android:textAllCaps="false"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#4859ED"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:visibility="visible" />
 
     <FrameLayout

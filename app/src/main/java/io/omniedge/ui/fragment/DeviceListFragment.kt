@@ -96,6 +96,7 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceVh>() {
                     }
                     if (ping.isNotEmpty() && "? ms" != ping) {
                         data.ping = ping
+                        data.ping
                         ThreadUtils.runOnMainThread {
                             networkData.indexOf(data).let {
                                 if (it > 0) {
@@ -158,6 +159,7 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceVh>() {
             holder.tvDeviceName?.text = data.device?.name
             holder.tvIp?.text = data.device?.virtualIp
             holder.tvPing?.text = data.ping
+
         }
         TraceCompat.endSection()
     }
