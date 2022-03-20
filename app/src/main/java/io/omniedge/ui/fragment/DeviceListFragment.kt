@@ -158,7 +158,6 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceVh>() {
             holder.tvDeviceName?.text = data.device?.name
             holder.tvIp?.text = data.device?.virtualIp
             holder.tvPing?.text = data.ping
-
         }
         TraceCompat.endSection()
     }
