@@ -66,7 +66,7 @@
         android:layout_marginLeft="@dimen/margin_horizontal"
         android:layout_marginRight="@dimen/margin_horizontal"
         android:background="@android:color/white"
-        android:padding="8dp">
+        android:padding="10dp">
 
         <!-- Lucy-iPhone -->
         <TextView
@@ -100,9 +100,14 @@
             android:id="@+id/switch_vpn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="7dp"
             android:checked="false"
-            android:enabled="false" />
+            android:enabled="false"
+            android:scaleX="1.5"
+            android:scaleY="1.5" />
 
         <FrameLayout
             android:id="@+id/fl_upload_download"
