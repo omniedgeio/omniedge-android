@@ -96,7 +96,6 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceVh>() {
                     }
                     if (ping.isNotEmpty() && "? ms" != ping) {
                         data.ping = ping
-                        data.ping
                         ThreadUtils.runOnMainThread {
                             networkData.indexOf(data).let {
                                 if (it > 0) {
