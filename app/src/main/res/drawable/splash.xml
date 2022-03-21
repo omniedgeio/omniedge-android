@@ -23,8 +23,8 @@
         android:top="380dp" />
 
     <item
-        android:width="260dp"
-        android:height="55dp"
+        android:width="267dp"
+        android:height="20dp"
         android:drawable="@drawable/ic_slogan"
         android:gravity="center_horizontal|top"
         android:left="50dp"

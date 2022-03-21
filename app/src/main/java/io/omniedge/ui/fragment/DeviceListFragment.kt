@@ -2,6 +2,7 @@ package io.omniedge.ui.fragment
 
 import android.annotation.SuppressLint
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -157,7 +158,24 @@ class DeviceAdapter : RecyclerView.Adapter<DeviceVh>() {
         } else {
             holder.tvDeviceName?.text = data.device?.name
             holder.tvIp?.text = data.device?.virtualIp
+            if ("? ms" == data.ping ){
+                holder.tvPing?.setTextColor(Color.parseColor("#5D5C63"))
+            }
+            else {
+                if (data.ping.isNotEmpty()) {
+                    var checkPingValue =
+                        data.ping.replace("?", "").replace("ms", "").replace(" ", "").toFloat()
+                    if (checkPingValue > 200) {
+                        holder.tvPing?.setTextColor(Color.parseColor("#F6103A"))
+                    } else if (checkPingValue < 100) {
+                        holder.tvPing?.setTextColor(Color.parseColor("#4CAF50"))
+                    } else {
+                        holder.tvPing?.setTextColor(Color.parseColor("#F39810"))
+                    }
+                }
+            }
             holder.tvPing?.text = data.ping
+
         }
         TraceCompat.endSection()
     }
