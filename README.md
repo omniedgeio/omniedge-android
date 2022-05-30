@@ -1,32 +1,81 @@
-# OmniEdge
-[https://omniedge.io](https://omniedge.io)
+# OmniEdge-Android
 
-Connect without concern.
+>Bring the intranet on the internet
 
-## Overview
+<!-- [![Build Status]() -->
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
-This repository contains the open source [OmniEdge](https://omniedge.io) Evalution Version Android Client code. Other platform apps are: 
+[🤝 Website](https://omniedge.io)
+[💬 Twitter](https://twitter.com/omniedgeio)
 
-- OmniEdge Android: [https://github.com/omniedgeio/omniedge-android](https://github.com/omniedgeio/omniedge-android)
-- OmniEdge-iOS: Coming soon
-- OmniEdge-windows: Coming Soon
-- OmniEdge-MacOS: : Coming soon
-- OmniEdge Linux Cli: Coming soon
-- OmniEdge-Raspberry Pi: : Coming soon
-- OmniEdge-Synology: [https://github.com/omniedgeio/omniedge-synology](https://github.com/omniedgeio/omniedge-synology)
-- OmniEdge-Router: : Coming soon
+A cross-platform private network tool for developers.
 
-## What does OmniEdge do ?
 
-OmniEdge is a high performance peer-to-peer mesh VPN over UDP, with strong encryption, hole-punching and no-configuration. The protocol is developed based on [n2n](https://github.com/ntop/n2n).
+## Install
 
-## Why do you need OmniEdge?
+### Install OmniEdge Cli
 
-Anyone who wants to have your own private virtual network on the internet, connect your devices such as MacBook, iPhone, Android Phone, Routers, NAS, AGVs, Robots and more with a P2P VPN.
+```bash
+curl https://omniedge.io/install/omniedge-install.sh | bash
+```
 
-## Where to get help ? 
+### Install OmniEdge Gui Client
 
-Welcome to submit an issue if you have any problems, we do encourage you to try to fix it and submit a PR to us. 
+-   [Android: OmniEdge.apk](https://omniedge.io/install/download/0.2.2/omniedge-release-v0.2.2.apk)
+-   [macOS cli](https://omniedge.io/install/download/0.2.3/omniedgecli-macos-latest.zip)
+-   [Windows](https://omniedge.io/install/download/0.2.3/omniedge-setup-0.2.3.exe)
+-   [Linux Cli](https://github.com/omniedgeio/app-release/releases/tag/v0.2.3)
+-   [iOS & M1 Mac]
+-   [Synology](https://omniedge.io/download/synology)
+-   [Raspberry Pi, ARM, Nvidia Jetson](https://github.com/omniedgeio/app-release/releases/tag/v0.2.3)
+
+
+## Cli Command
+
+### Login
+
+- Login By Password
+
+```shell
+omniedge login -u xxx@xxx.com
+```
+
+-  Login By Secret-Key
+
+You can generate secret-key on omniedge web.
+
+```shell
+omniedge login -s xxxxxx
+```
+
+### Join
+
+you can just call `omniedge join`, it will automatically prompt 
+the available network for you to choose. And you can 
+also add one parameter `-n` to specify the network id manually.
+
+And then, enjoy the omniedge network.
+
+```shell
+omniedge join 
+// or
+omniedge join -n "virtual-network-id" 
+```
+
+## Protocol
+
+[n2n](https://github.com/ntop/n2n)
+
+## Resources
+
+- Architecture: https://omniedge.io/docs/article/architecture
+- Install: https://omniedge.io/docs/article/install
+- Cases: https://omniedge.io/docs/article/cases
+- Compare: https://omniedge.io/docs/article/compare
+- Performance: https://omniedge.io/docs/article/performance
+- Dashboard: https://omniedge.io/docs/article/admin
+- [n2n](https://github.com/ntop/n2n)
+
 
 ## Contributing Guildlines
 
@@ -41,7 +90,6 @@ Just visit https://omniedge.io/download and download the apps for your platform.
 
 2. If you are an experienced programmer 
 You can prepare your own supernode and build the client to reach your own target accroding to the following `Compiler and debugger` Section.
-
 
 ## Compiler and debugger
 
