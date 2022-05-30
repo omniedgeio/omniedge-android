@@ -10,24 +10,28 @@ apply plugin: 'kotlin-kapt'
 
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 31
     defaultConfig {
         applicationId "io.omniedge"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 31
         // xx_xx_xx
-        versionCode 2_00
+        versionCode 2_10
         // xx.xx.xxx_date
-        versionName "0.2.0_${getDate()}"
+        versionName "0.2.2_${getDate()}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
 
         // 是否启用SysTrace
         buildConfigField('boolean', 'ENABLE_SYSTRACE', "${rootProject.ext.enableSystrace}")
-        buildConfigField('String', 'BASE_URL', '"https://dev.omniedge.io"')
-        buildConfigField('String', 'CLIENT_ID', '"1063377363469-q6hvn0oudqconndlqeph4ijero6v5vh3.apps.googleusercontent.com"')
+        // dev
+//        buildConfigField('String', 'BASE_URL', '"https://dev-api.omniedge.io"')
+//        buildConfigField('String', 'CLIENT_ID', '"1063377363469-q6hvn0oudqconndlqeph4ijero6v5vh3.apps.googleusercontent.com"')
+
+        // prod
+        buildConfigField('String', 'BASE_URL', '"https://api.omniedge.io"')
+        buildConfigField('String', 'CLIENT_ID', '"1063377363469-qs8mnrtqjrv57kl3360r3mf3f5fvs3n4.apps.googleusercontent.com"')
     }
 
     signingConfigs {
@@ -64,6 +68,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 
 }
@@ -83,9 +88,11 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
     implementation "com.google.android.material:material:$material_version"
-    implementation "com.android.actionsheetdialog:actionsheet:$actionsheet_version"
+//    implementation "com.android.actionsheetdialog:actionsheet:$actionsheet_version"
     implementation "org.permissionsdispatcher:permissionsdispatcher:$permissionsdispatcher_version"
     kapt "org.permissionsdispatcher:permissionsdispatcher-processor:$permissionsdispatcher_version"
     implementation "com.wang.avi:library:2.1.3"

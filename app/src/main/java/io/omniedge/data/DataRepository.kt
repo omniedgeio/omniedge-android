@@ -62,12 +62,16 @@ class DataRepository private constructor(private val context: Context) {
         return remoteDataSource.registerDevice(device)
     }
 
+    fun createNetwork(network: CreateNetwork): Single<CreateNetworkResponse> {
+        return remoteDataSource.createNetwork(network)
+    }
+
     fun listNetworks(): Single<ListNetworkResponse> {
         return remoteDataSource.listNetworks()
     }
 
-    fun joinNetwork(networkUUID: String, deviceUUID: String): Single<JoinNetworkResponse> {
-        return remoteDataSource.joinNetwork(networkUUID, deviceUUID)
+    fun joinNetwork(networkID: String, deviceID: String): Single<JoinNetworkResponse> {
+        return remoteDataSource.joinNetwork(networkID, deviceID)
     }
 
     fun updateToken(token: String?) {
@@ -96,6 +100,10 @@ class DataRepository private constructor(private val context: Context) {
 
     fun getHardwareUUID(): String {
         return localDataSource.getHardwareUUID()
+    }
+
+    fun generateUUID(): String {
+        return localDataSource.generateUUID()
     }
 
     fun updateCommunityName(communityName: String) {

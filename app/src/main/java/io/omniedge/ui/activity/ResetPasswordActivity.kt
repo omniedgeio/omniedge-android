@@ -27,7 +27,7 @@ class ResetPasswordActivity : BaseActivity() {
             val email = binding.etEmail.text?.toString()
 
             if (email.isNullOrBlank()) {
-                toast(R.string.email_or_password_empty)
+                toast(it, R.string.email_or_password_empty)
                 return@setOnClickListener
             }
 

@@ -15,7 +15,8 @@ data class ChangePassword(
 
 data class CreateNetwork(
     val name: String,
-    val serverUUID: String,
+    @SerializedName("ip_range") val ipRange: String,
+    @SerializedName("server_id") val serverID: String,
 )
 
 data class LinkGoogleAccount(
@@ -26,7 +27,7 @@ open class Login(authSessionUuid: String?)
 
 data class GoogleLogin(
     @SerializedName("auth_session_uuid") val authSessionUuid: String?,
-    val idToken: String,
+    @SerializedName("id_token") val idToken: String,
 ) : Login(authSessionUuid)
 
 data class PasswordLogin(
@@ -45,7 +46,7 @@ data class Register(
 data class RegisterDevice(
     val name: String,
     @SerializedName("hardware_uuid") val hardwareUUID: String,
-    val os: String,
+    val platform: String,
 )
 
 data class ResetPassword(val email: String)

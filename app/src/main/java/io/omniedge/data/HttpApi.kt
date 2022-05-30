@@ -6,76 +6,76 @@ import retrofit2.http.*
 
 interface HttpApi {
 
-    @POST("/api/auth/register")
+    @POST("/api/v1/auth/register")
     fun register(@Body params: Register): Single<Response>
 
     @Headers("provider: password")
-    @POST("/api/auth/login/password")
+    @POST("/api/v1/auth/login/password")
     fun login(@Body params: PasswordLogin): Single<LoginResponse>
 
     @Headers("provider: google")
-    @POST("/api/auth/login/google")
+    @POST("/api/v1/auth/login/google")
     fun loginWithGoogle(@Body params: GoogleLogin): Single<LoginResponse>
 
-    @POST("/api/auth/reset-password/code")
+    @POST("/api/v1/auth/reset-password/code")
     fun resetPassword(@Body params: ResetPassword): Single<Response>
 
-    @POST("/api/auth/reset-password/verify")
+    @POST("/api/v1/auth/reset-password/verify")
     fun resetPasswordVerify(): Single<Response>
 
-    @POST("/api/user/profile")
+    @POST("/api/v1/user/profile")
     fun retrieveProfile(): Single<Response>
 
-    @POST("/api/user/profile")
+    @POST("/api/v1/user/profile")
     fun updateProfile(): Single<Response>
 
-    @POST("/api/user/auth/identities/google")
+    @POST("/api/v1/user/auth/identities/google")
     fun linkGoogleAccount(): Single<Response>
 
-    @POST("/api/user/auth/identities/password")
+    @POST("/api/v1/user/auth/identities/password")
     fun activatePasswordLogin(): Single<Response>
 
     @Headers("Content-Type: application/json")
-    @POST("/api/devices/register")
+    @POST("/api/v1/devices/register")
     fun registerDevice(@Body params: RegisterDevice): Single<RegisterDeviceResponse>
 
-    @GET("/api/devices")
+    @GET("/api/v1/devices")
     fun listDevices(): Single<Response>
 
-    @GET("/api/devices/{uuid}")
-    fun retrieveDevice(@Path("uuid") uuid: String): Single<Response>
+    @GET("/api/v1/devices/{id}")
+    fun retrieveDevice(@Path("id") id: String): Single<Response>
 
-    @POST("/api/devices/{uuid}")
-    fun updateDevice(@Path("uuid") uuid: String): Single<Response>
+    @POST("/api/v1/devices/{id}")
+    fun updateDevice(@Path("id") id: String): Single<Response>
 
-    @DELETE("/api/devices/{uuid}")
-    fun deleteDevice(@Path("uuid") uuid: String): Single<Response>
+    @DELETE("/api/v1/devices/{id}")
+    fun deleteDevice(@Path("id") id: String): Single<Response>
 
-    @POST("/api/virtual-networks")
-    fun createNetwork(@Body network: CreateNetwork): Single<Response>
+    @POST("/api/v1/virtual-networks")
+    fun createNetwork(@Body network: CreateNetwork): Single<CreateNetworkResponse>
 
-    @GET("/api/virtual-networks")
+    @GET("/api/v1/virtual-networks")
     fun listNetworks(): Single<ListNetworkResponse>
 
-    @GET("/api/virtual-networks/{uuid}")
-    fun retrieveNetwork(@Path("uuid") uuid: String): Single<Response>
+    @GET("/api/v1/virtual-networks/{id}")
+    fun retrieveNetwork(@Path("id") id: String): Single<Response>
 
-    @POST("/api/virtual-networks/{uuid}")
-    fun updateNetwork(@Path("uuid") uuid: String): Single<Response>
+    @POST("/api/v1/virtual-networks/{id}")
+    fun updateNetwork(@Path("id") id: String): Single<Response>
 
-    @DELETE("/api/virtual-networks/{uuid}")
-    fun deleteNetwork(@Path("uuid") uuid: String): Single<Response>
+    @DELETE("/api/v1/virtual-networks/{id}")
+    fun deleteNetwork(@Path("id") id: String): Single<Response>
 
-    @DELETE("/api/virtual-networks/{networkUUID}/devices/{deviceUUID}")
+    @DELETE("/api/v1/virtual-networks/{networkID}/devices/{deviceID}")
     fun removeDeviceFromNetwork(
-        @Path("networkUUID") networkUUID: String,
-        @Path("deviceUUID") deviceUUID: String,
+        @Path("networkID") networkID: String,
+        @Path("deviceID") deviceID: String,
     ): Single<Response>
 
-    @POST("/api/virtual-networks/{networkUUID}/devices/{deviceUUID}/join")
+    @POST("/api/v1/virtual-networks/{networkID}/devices/{deviceID}/join")
     fun joinNetwork(
-        @Path("networkUUID") networkUUID: String,
-        @Path("deviceUUID") deviceUUID: String,
+        @Path("networkID") networkID: String,
+        @Path("deviceID") deviceID: String,
     ): Single<JoinNetworkResponse>
 
 }

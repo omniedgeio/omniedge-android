@@ -1,16 +1,19 @@
 package io.omniedge.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import io.omniedge.PageView
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.include_toolbar.*
@@ -50,15 +53,27 @@ abstract class BaseActivity : AppCompatActivity(), PageView {
         return super.onOptionsItemSelected(item)
     }
 
-    fun toast(@StringRes msg: Int) {
+    fun toast(view: View, @StringRes msg: Int) {
         runOnUiThread {
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
+                .apply {
+                    this.view
+                        .findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                        .maxLines = 5
+                }
+                .show()
         }
     }
 
-    fun toast(msg: String) {
+    fun toast(view: View, msg: String) {
         runOnUiThread {
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+            Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
+                .apply {
+                    this.view
+                        .findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                        .maxLines = 5
+                }
+                .show()
         }
     }
 
@@ -108,11 +123,20 @@ abstract class BaseActivity : AppCompatActivity(), PageView {
     }
 
     override fun showToast(msg: String) {
-        toast(msg)
+        toast(findViewById(android.R.id.content), msg)
     }
 
     open fun showBack(): Boolean {
         return true
     }
 
+}
+
+fun Context.launch(cls: Class<*>, finish: Boolean = false) {
+    startActivity(Intent(this, cls))
+    if (finish) {
+        if (this is Activity) {
+            finish()
+        }
+    }
 }

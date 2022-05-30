@@ -15,10 +15,12 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:letterSpacing="-0.02"
-        android:text="SuperNode"
-        android:textColor="@android:color/black"
-        android:textSize="17sp" />
+        android:letterSpacing="0.03"
+        android:text="OmniEdge"
+        android:textColor="#5D5C63"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:typeface="normal" />
 
     <TextView
         android:id="@+id/tv_ip"
@@ -26,9 +28,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_name"
         android:layout_marginTop="8dp"
-        android:letterSpacing="-0.02"
+        android:letterSpacing="0.03"
         android:textColor="#5D5C63"
-        android:textSize="17sp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:typeface="normal"
         tools:text="100.195.112.123" />
 
     <TextView
@@ -37,5 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
+        android:textColor="#5D5C63"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:translationY="11dp"
         tools:text="3 ms" />
 </RelativeLayout>

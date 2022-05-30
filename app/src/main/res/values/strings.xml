@@ -33,7 +33,7 @@
     <string name="app_register">Register</string>
     <string name="app_sign_in_with_google">Sign in with Google</string>
     <string name="email_hint">Email Address</string>
-    <string name="password_confirm_mismatch">Password don\'t match.</string>
+    <string name="password_confirm_mismatch">Password and confirm password don\'t match.</string>
     <string name="username_empty">User name empty</string>
     <string name="email_or_password_empty">Email or Password empty</string>
     <string name="password_short_length">Password length too short, 8 characters at least.</string>
@@ -46,7 +46,6 @@
     <string name="terms_of_service">Terms of service</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="omniedge">OmniEdge</string>
-    <string name="home_page_link" translatable="false">https://omniedge.io</string>
     <string name="community">Community</string>
     <string name="browser_missing">Browser not found. Please install a browser before next step.</string>
     <string name="click_to_retry">click to retry</string>

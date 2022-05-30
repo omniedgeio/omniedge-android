@@ -20,7 +20,7 @@ class PrivacyFragment() : BaseFragment(), AdvancedWebView.Listener {
     companion object {
         private const val PRIVATE_URL = "http://www.example.org/"
     }
-    
+
     private lateinit var mWebView: AdvancedWebView
 
     override fun onCreateView(
