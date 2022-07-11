@@ -15,12 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Test
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
       - name: Setup JDK
         uses: actions/setup-java@v1
         with:
@@ -44,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: apk
-          path: app/build/outputs/apk/debug/OmniEdge-debug-${{ env.RELEASE_VERSION }}.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
   release:
     name: Release APK
     needs: apk
@@ -70,6 +64,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: apk/OmniEdge-debug-${{ env.RELEASE_VERSION }}.apk
-          asset_name: OmniEdge-${{ env.RELEASE_VERSION }}.apk
+          asset_path: apk/app-debug.apk
+          asset_name: OmniEdge-${{ github.ref }} .apk
           asset_content_type: application/zip
