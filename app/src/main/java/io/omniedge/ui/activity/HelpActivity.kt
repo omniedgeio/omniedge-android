@@ -20,6 +20,7 @@ import io.omniedge.databinding.ItemHelpTitleBinding
 private enum class MenuItem(val text: String, val title: Boolean = false) {
     Help(getString(R.string.help), true),
     HomePage(getString(R.string.home_page)),
+    OpenSource(getString(R.string.open_source)),
     Licenses(getString(R.string.licenses)),
     Legal(getString(R.string.legal), true),
     TermsOfService(getString(R.string.terms_of_service)),
@@ -31,6 +32,7 @@ private enum class MenuItem(val text: String, val title: Boolean = false) {
 private val items = listOf(
     MenuItem.Help,
     MenuItem.HomePage,
+    MenuItem.OpenSource,
 //    MenuItem.Licenses,
     MenuItem.Legal,
     MenuItem.TermsOfService,
@@ -42,6 +44,7 @@ private val items = listOf(
 private const val HOME_PAGE_LINK = "https://omniedge.io"
 private const val TERMS_OF_SERVICE_LINK = "https://omniedge.io/terms"
 private const val PRIVACY_POLICY_LINK = "https://omniedge.io/privacy"
+private const val GITHUB_REPO = "https://github.com/omniedgeio/omniedge"
 
 class HelpActivity : BaseActivity() {
 
@@ -109,6 +112,18 @@ private class ItemViewHolder(val binding: ViewBinding) : RecyclerView.ViewHolder
                         val intent = Intent(
                             Intent.ACTION_VIEW,
                             Uri.parse(HOME_PAGE_LINK)
+                        )
+                        itemView.context.startActivity(intent)
+                    } catch (e: Exception) {
+                    }
+                }
+            }
+            MenuItem.OpenSource -> { // OpenSource
+                binding.container.setOnClickListener {
+                    try {
+                        val intent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse(GITHUB_REPO)
                         )
                         itemView.context.startActivity(intent)
                     } catch (e: Exception) {
