@@ -1,4 +1,9 @@
 # Change log for OmniEdge Android
+
+## Version 0.2.3
+* fix bugs
+* add Simplified Chinese 
+
 ## Version 0.2.1
 * Migrated to new backend APIs.
 * Add network creation logic on account without networks.
