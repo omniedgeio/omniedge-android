@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - master
-      - feature/CI
+      - feature/CI 
     tags:
-      - 'v*'
+      - 'v*.*.*'
 
 jobs:
   test:
@@ -14,7 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Test
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
       - name: Setup JDK
         uses: actions/setup-java@v1
         with:
@@ -64,6 +70,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: apk/app-debug.apk
-          asset_name: MensaApp.apk
+          asset_path: apk/OmniEdge-debug-${{ env.RELEASE_VERSION }}.apk
+          asset_name: OmniEdge-${{ env.RELEASE_VERSION }}.apk
           asset_content_type: application/zip
