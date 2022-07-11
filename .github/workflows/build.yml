@@ -57,14 +57,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: OmniEdge-Android-${{ github.ref }} 
-      - name: Release to omniedgeio/omniedge
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-        with:
-          repository: omniedgeio/omniedge
-          tag_name: ${{ github.ref }}
-          release_name: OmniEdge-Android-${{ github.ref }} 
       - name: Upload Release APK
         id: upload_release_asset
         uses: actions/upload-release-asset@v1.0.1
