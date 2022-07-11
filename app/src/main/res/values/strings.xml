@@ -1,17 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">OmniEdge</string>
-    <string name="input_password">密码没有填写</string>
-    <string name="update_password">更改密码</string>
-    <string name="submit">提交</string>
-    <string name="old_password">新密码</string>
-    <string name="new_password">确认新密码</string>
-    <string name="update_password_success">成功修改密码</string>
-    <string name="logout">账号退出</string>
-    <string name="notthesame">密码不一致</string>
-    <string name="invalidPasswordMessage">6-22个字符有效</string>
-    <string name="unknownIP">未知IP</string>
-    <string name="unkonwnName">未知名称</string>
-    <string name="privacy_title">使用条款</string>
+    <string name="input_password">Empty password</string>
+    <string name="update_password">Change Password</string>
+    <string name="submit">Submit</string>
+    <string name="old_password">New password</string>
+    <string name="new_password">Repeat new password</string>
+    <string name="update_password_success">Password changed</string>
+    <string name="logout">Logout</string>
+    <string name="notthesame">Wrong repeat</string>
+    <string name="invalidPasswordMessage">6-22 characters</string>
+    <string name="unknownIP">Unknown IP</string>
+    <string name="unkonwnName">Unknown Name</string>
+    <string name="privacy_title">Privacy</string>
 
     <string name="node_setting">Node settings</string>
     <string name="notification_channel_id_default">default</string>
@@ -50,7 +51,7 @@
     <string name="browser_missing">Browser not found. Please install a browser before next step.</string>
     <string name="click_to_retry">click to retry</string>
     <string name="ping_devices">Ping Devices</string>
-    <string name="slogan">Connect without concern at\nany platform, anytime, anywhere.</string>
+    <string name="slogan">Bring intranet on the internet</string>
     <string name="email_continue_hint">or continue with email</string>
     <string name="forget_password"><u>forget password</u></string>
     <string name="continue_with_google">Continue with Google</string>
