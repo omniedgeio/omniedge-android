@@ -2,9 +2,9 @@ name: Build android
 
 on:
   push:
-    branches:
-      - main
-      - dev
+    # branches:
+    #   - main
+    #   - dev
     tags:
       - 'v*.*.*'
 
@@ -34,17 +34,22 @@ jobs:
           java-version: 11
       - name: Build APK
         run: bash ./gradlew assembleDebug --stacktrace
+      - name: Generate SHA256 checksums
+        run: |
+          sha256sum app/build/outputs/apk/debug/app-debug.apk >> OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
+          cat OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
+          pwd
       - name: Upload APK
         uses: actions/upload-artifact@v1
         with:
           name: apk
           path: app/build/outputs/apk/debug/app-debug.apk
+      - name: Upload SHA256
+        uses: actions/upload-artifact@v1
+        with:
+          name: SHA256
+          path: OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
           
-      - name: Generate SHA256 checksums
-        run: |
-          sha256sum *.apk >> OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
-          cat SHA256SUMS.txt
-
   release:
     name: Release APK
     needs: apk
@@ -54,7 +59,11 @@ jobs:
       - name: Download APK from build
         uses: actions/download-artifact@v1
         with:
-          name: apk  
+          name: apk
+      - name: Download SHA256 from build
+        uses: actions/download-artifact@v1
+        with:
+          name: SHA256
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -82,6 +91,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
-          asset_name: OmniEdge-Android-${{ github.ref_name }}.apk
+          asset_path: SHA256/OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
+          asset_name: OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
           asset_content_type: application/txt
