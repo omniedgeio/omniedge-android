@@ -9,7 +9,7 @@
     <string name="update_password_success">Password changed</string>
     <string name="logout">Logout</string>
     <string name="notthesame">Wrong repeat</string>
-    <string name="invalidPasswordMessage">6-22 characters</string>
+    <string name="invalidPasswordMessage">6–22 characters</string>
     <string name="unknownIP">Unknown IP</string>
     <string name="unkonwnName">Unknown Name</string>
     <string name="privacy_title">Privacy</string>

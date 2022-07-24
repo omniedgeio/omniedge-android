@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">OmniEdge</string>
     <string name="input_password">密码没有填写</string>
     <string name="update_password">更改密码</string>
     <string name="submit">提交</string>
@@ -7,7 +8,7 @@
     <string name="update_password_success">成功修改密码</string>
     <string name="logout">账号退出</string>
     <string name="notthesame">密码不一致</string>
-    <string name="invalidPasswordMessage">6-22个字符有效</string>
+    <string name="invalidPasswordMessage">6–22个字符有效</string>
     <string name="unknownIP">未知IP</string>
     <string name="unkonwnName">未知名称</string>
     <string name="privacy_title">使用条款</string>
