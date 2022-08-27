@@ -54,7 +54,4 @@ dependencies {
 
     api "com.orhanobut:logger:$logger_version"
     api "com.blankj:utilcodex:$utilcodex_version"
-
-    // google authentication
-    api "com.google.android.gms:play-services-auth:$play_services_auth_version"
 }

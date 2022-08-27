@@ -13,8 +13,6 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.TraceCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import io.omniedge.*
 import io.omniedge.n2n.N2NService
 import io.omniedge.n2n.model.EdgeStatus
@@ -153,12 +151,6 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
             finish()
             startActivity(Intent(this, LoginActivity::class.java))
 
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(BuildConfig.CLIENT_ID)
-                .requestEmail()
-                .build()
-            val client = GoogleSignIn.getClient(this, gso)
-            client.signOut()
         }
 
         signOutBlock()

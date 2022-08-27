@@ -47,48 +47,16 @@
             app:layout_constraintRight_toLeftOf="@id/guideline_right"
             app:layout_constraintTop_toBottomOf="@id/iv_logo" />
 
-        <Button
-            android:id="@+id/google_login"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/btn_google_signin_light"
-            android:lines="1"
-            android:maxLines="1"
-            android:text="@string/continue_with_google"
-            android:textAllCaps="false"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@id/iv_email_continue_hint"
-            app:layout_constraintLeft_toRightOf="@id/guideline_left"
-            app:layout_constraintRight_toLeftOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/iv_slogan" />
-
-        <ImageView
-            android:id="@+id/iv_email_continue_hint"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:src="@drawable/ic_continue_with_email"
-            android:text="@string/email_continue_hint"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/container"
-            app:layout_constraintLeft_toRightOf="@id/guideline_left"
-            app:layout_constraintRight_toLeftOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/google_login" />
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             app:defaultNavHost="true"
             app:layout_constraintLeft_toLeftOf="@id/guideline_left"
             app:layout_constraintRight_toRightOf="@id/guideline_right"
-            app:layout_constraintTop_toBottomOf="@id/iv_email_continue_hint"
+            app:layout_constraintTop_toBottomOf="@id/iv_slogan"
             app:navGraph="@navigation/nav_login" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

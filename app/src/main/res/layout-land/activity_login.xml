@@ -189,26 +189,9 @@
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         android:typeface="monospace"
-        app:layout_constraintBottom_toTopOf="@id/google_login"
-        app:layout_constraintLeft_toRightOf="@id/guideline_middle"
-        app:layout_constraintRight_toLeftOf="@id/guideline_right"
-        app:layout_constraintTop_toBottomOf="@id/btn_login" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/google_login"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:lines="1"
-        android:maxLines="1"
-        android:textAllCaps="true"
-        android:textSize="20sp"
-        android:typeface="monospace"
-        app:buttonSize="wide"
-        app:colorScheme="dark"
         app:layout_constraintBottom_toTopOf="@id/guideline_bottom"
         app:layout_constraintLeft_toRightOf="@id/guideline_middle"
         app:layout_constraintRight_toLeftOf="@id/guideline_right"
-        app:layout_constraintTop_toBottomOf="@id/btn_register" />
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
