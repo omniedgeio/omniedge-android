@@ -16,4 +16,11 @@
         tools:layout="@layout/fragment_register">
         <!--        <action app:destination="@id/login_fragment" />-->
     </fragment>
+    <fragment
+        android:id="@+id/reset_password_fragment"
+        android:name="io.omniedge.ui.fragment.ResetPasswordFragment"
+        android:label="@string/forget_password"
+        tools:layout="@layout/fragment_reset_password">
+        <!--        <action app:destination="@id/login_fragment" />-->
+    </fragment>
 </navigation>

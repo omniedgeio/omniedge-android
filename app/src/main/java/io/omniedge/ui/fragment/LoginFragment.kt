@@ -1,6 +1,5 @@
 package io.omniedge.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.navigation.findNavController
 import io.omniedge.R
 import io.omniedge.databinding.FragmentLoginBinding
-import io.omniedge.ui.activity.ResetPasswordActivity
 
 class LoginFragment : BaseLoginFragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -45,8 +43,8 @@ class LoginFragment : BaseLoginFragment() {
             } else false
         }
 
-        binding.tvForgetPassword?.setOnClickListener {
-            startActivity(Intent(requireContext(), ResetPasswordActivity::class.java))
+        binding.tvForgetPassword.setOnClickListener {
+            it.findNavController().navigate(R.id.reset_password_fragment)
         }
 
         binding.btnRegister.setOnClickListener {

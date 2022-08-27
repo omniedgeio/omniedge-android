@@ -75,12 +75,6 @@
             android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity
-            android:name=".ui.activity.ResetPasswordActivity"
-            android:exported="false"
-            android:launchMode="singleInstance"
-            android:windowSoftInputMode="adjustPan" />
-
     </application>
 
 </manifest>

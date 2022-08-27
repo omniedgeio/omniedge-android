@@ -1,28 +1,27 @@
-package io.omniedge.ui.activity
+package io.omniedge.ui.fragment
 
 import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import io.omniedge.App
 import io.omniedge.BusObserver
 import io.omniedge.R
 import io.omniedge.data.bean.Response
-import io.omniedge.databinding.ActivityResetPasswordBinding
+import io.omniedge.databinding.FragmentResetPasswordBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-class ResetPasswordActivity : BaseActivity() {
-    private companion object {
-        private const val TAG = "ResetPasswordActivity"
-    }
+class ResetPasswordFragment : BaseFragment() {
 
-    private lateinit var binding: ActivityResetPasswordBinding
+    private lateinit var binding: FragmentResetPasswordBinding
 
-    override fun getLayoutView(): View {
-        binding = ActivityResetPasswordBinding.inflate(layoutInflater)
-        return binding.root
-    }
-
-    override fun init() {
-        super.init()
+    override fun getLayoutView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentResetPasswordBinding.inflate(layoutInflater)
         binding.btnSubmit.setOnClickListener {
             val email = binding.etEmail.text?.toString()
 
@@ -33,12 +32,13 @@ class ResetPasswordActivity : BaseActivity() {
 
             resetPassword(email)
         }
+        return binding.root
     }
 
     private fun resetPassword(email: String) {
         App.repository.resetPassword(email)
             .subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : BusObserver<Response>(this@ResetPasswordActivity) {
+            .subscribe(object : BusObserver<Response>(this) {
                 override fun loading(): Boolean {
                     return true
                 }
