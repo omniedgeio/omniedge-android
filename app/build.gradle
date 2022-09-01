@@ -15,10 +15,8 @@ android {
         applicationId "io.omniedge"
         minSdkVersion 23
         targetSdkVersion 31
-        // xx_xx_xx
-        versionCode 2_30
-        // xx.xx.xxx_date
-        versionName "0.2.3_${getDate()}"
+        versionCode 233
+        versionName "0.2.3.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
