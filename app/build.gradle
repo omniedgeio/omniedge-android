@@ -31,9 +31,8 @@ android {
 
         // prod
         buildConfigField('String', 'BASE_URL', '"https://api.omniedge.io"')
-        buildConfigField('String', 'CLIENT_ID', '"1063377363469-qs8mnrtqjrv57kl3360r3mf3f5fvs3n4.apps.googleusercontent.com"')
-    }
-
+        buildConfigField('String', 'CLIENT_ID', '"1063377363469-3gpjsaco1t26epgtghv5q16l5gb9b7mk.apps.googleusercontent.com"')
+    }        
     signingConfigs {
         debug {
             keyAlias rootProject.ext.signingKeyAlias
