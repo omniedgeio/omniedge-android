@@ -92,3 +92,11 @@ jobs:
           repository: omniedgeio/omniedge-web-frontend
           event-type: android-release
           client-payload: '{"package": "android", "version": "${{ github.ref_name }}"}'
+
+      - name: Notify meta-repo to update submodule
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+          repository: omniedgeio/omniedge
+          event-type: meta-release
+          client-payload: '{"package": "android", "version": "${{ github.ref_name }}"}'
