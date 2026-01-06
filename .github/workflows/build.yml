@@ -94,3 +94,11 @@ jobs:
           asset_path: SHA256/OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
           asset_name: OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
           asset_content_type: application/txt
+
+      - name: Notify web-frontend to update docs
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+          repository: omniedgeio/omniedge-web-frontend
+          event-type: android-release
+          client-payload: '{"package": "android", "version": "${{ github.ref_name }}"}'
