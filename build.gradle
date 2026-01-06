@@ -51,7 +51,7 @@ ext {
     lifecycle_ktx_version = '2.3.1'
     kotlinx_coroutines_android_version = '1.5.1'
 
-    permissionsdispatcher_version = '4.6.0'
+    permissionsdispatcher_version = '4.9.1'
     retrofit_version = '2.9.0'
 
     okhttp_version = '4.9.1'
