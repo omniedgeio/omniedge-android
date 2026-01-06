@@ -8,15 +8,14 @@ data class ActivatePasswordLogin(
 )
 
 data class ChangePassword(
-    val oldPassword: String,
-    val password: String,
-    @SerializedName("confirm_password") val confirmPassword: String,
+    @SerializedName("old_password") val oldPassword: String,
+    @SerializedName("new_password") val newPassword: String,
 )
 
 data class CreateNetwork(
     val name: String,
-    @SerializedName("ip_range") val ipRange: String,
-    @SerializedName("server_id") val serverID: String,
+    @SerializedName("ip_range") val ipRange: String? = null,
+    @SerializedName("server_id") val serverID: String? = null,
 )
 
 data class LinkGoogleAccount(
@@ -45,28 +44,36 @@ data class Register(
 
 data class RegisterDevice(
     val name: String,
-    @SerializedName("hardware_uuid") val hardwareUUID: String,
-    val platform: String,
+    @SerializedName("hardware_id") val hardwareId: String,
+    val os: String? = null,
+    val platform: String? = "android",
 )
 
 data class ResetPassword(val email: String)
 
 data class ResetPasswordVerify(
-    val token: String,
+    val email: String,
+    val code: String,
     val password: String,
-    @SerializedName("confirm_password") val confirmPassword: String,
+)
+
+data class RefreshToken(
+    @SerializedName("refresh_token") val refreshToken: String
+)
+
+data class DeviceHeartbeat(
+    @SerializedName("hardware_id") val hardwareId: String? = null
 )
 
 data class UpdateDevice(
-    val uuid: String,
+    val name: String? = null,
 )
 
 data class UpdateNetwork(
-    val name: String,
-    val serverUUID: String,
+    val name: String? = null,
+    @SerializedName("server_id") val serverId: String? = null,
 )
 
 data class UpdateProfile(
-    val name: String,
-    val email: String,
+    val name: String? = null,
 )

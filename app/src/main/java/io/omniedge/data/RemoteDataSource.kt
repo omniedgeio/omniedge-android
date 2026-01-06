@@ -2,11 +2,11 @@ package io.omniedge.data
 
 import io.omniedge.data.bean.*
 import io.reactivex.Single
-import retrofit2.http.Body
 
 class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
 
-    override fun register(@Body params: Register): Single<Response> {
+    // ==================== AUTH ====================
+    override fun register(params: Register): Single<Response> {
         return httpApi.register(params)
     }
 
@@ -18,50 +18,57 @@ class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
         return httpApi.loginWithGoogle(params)
     }
 
+    override fun refreshToken(params: RefreshToken): Single<LoginResponse> {
+        return httpApi.refreshToken(params)
+    }
+
     override fun resetPassword(params: ResetPassword): Single<Response> {
         return httpApi.resetPassword(params)
     }
 
-    override fun resetPasswordVerify(): Single<Response> {
-        return httpApi.resetPasswordVerify()
+    override fun resetPasswordVerify(params: ResetPasswordVerify): Single<Response> {
+        return httpApi.resetPasswordVerify(params)
     }
 
-    override fun retrieveProfile(): Single<Response> {
-        return httpApi.retrieveProfile()
+    // ==================== PROFILE ====================
+    override fun getProfile(): Single<ProfileResponse> {
+        return httpApi.getProfile()
     }
 
-    override fun updateProfile(): Single<Response> {
-        return httpApi.updateProfile()
+    override fun updateProfile(params: UpdateProfile): Single<Response> {
+        return httpApi.updateProfile(params)
     }
 
-    override fun linkGoogleAccount(): Single<Response> {
-        return httpApi.linkGoogleAccount()
+    override fun changePassword(params: ChangePassword): Single<Response> {
+        return httpApi.changePassword(params)
     }
 
-    override fun activatePasswordLogin(): Single<Response> {
-        return httpApi.activatePasswordLogin()
-    }
-
-    override fun registerDevice(@Body params: RegisterDevice): Single<RegisterDeviceResponse> {
+    // ==================== DEVICES ====================
+    override fun registerDevice(params: RegisterDevice): Single<RegisterDeviceResponse> {
         return httpApi.registerDevice(params)
     }
 
-    override fun listDevices(): Single<Response> {
+    override fun listDevices(): Single<ListDevicesResponse> {
         return httpApi.listDevices()
     }
 
-    override fun retrieveDevice(id: String): Single<Response> {
+    override fun retrieveDevice(id: String): Single<DeviceResponse> {
         return httpApi.retrieveDevice(id)
     }
 
-    override fun updateDevice(id: String): Single<Response> {
-        return httpApi.updateDevice(id)
+    override fun updateDevice(id: String, params: UpdateDevice): Single<Response> {
+        return httpApi.updateDevice(id, params)
     }
 
     override fun deleteDevice(id: String): Single<Response> {
         return httpApi.deleteDevice(id)
     }
 
+    override fun deviceHeartbeat(params: DeviceHeartbeat?): Single<HeartbeatResponse> {
+        return httpApi.deviceHeartbeat(params)
+    }
+
+    // ==================== VIRTUAL NETWORKS ====================
     override fun createNetwork(network: CreateNetwork): Single<CreateNetworkResponse> {
         return httpApi.createNetwork(network)
     }
@@ -70,27 +77,32 @@ class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
         return httpApi.listNetworks()
     }
 
-    override fun retrieveNetwork(id: String): Single<Response> {
+    override fun retrieveNetwork(id: String): Single<NetworkResponse> {
         return httpApi.retrieveNetwork(id)
     }
 
-    override fun updateNetwork(id: String): Single<Response> {
-        return httpApi.updateNetwork(id)
+    override fun updateNetwork(id: String, params: UpdateNetwork): Single<Response> {
+        return httpApi.updateNetwork(id, params)
     }
 
     override fun deleteNetwork(id: String): Single<Response> {
         return httpApi.deleteNetwork(id)
     }
 
-    override fun removeDeviceFromNetwork(
-        networkID: String,
-        deviceID: String
-    ): Single<Response> {
-        return httpApi.removeDeviceFromNetwork(networkID, deviceID)
+    override fun listNetworkDevices(id: String): Single<ListDevicesResponse> {
+        return httpApi.listNetworkDevices(id)
     }
 
     override fun joinNetwork(networkID: String, deviceID: String): Single<JoinNetworkResponse> {
         return httpApi.joinNetwork(networkID, deviceID)
     }
-}
 
+    override fun removeDeviceFromNetwork(networkID: String, deviceID: String): Single<Response> {
+        return httpApi.removeDeviceFromNetwork(networkID, deviceID)
+    }
+
+    // ==================== SERVERS ====================
+    override fun listServers(): Single<ListServersResponse> {
+        return httpApi.listServers()
+    }
+}

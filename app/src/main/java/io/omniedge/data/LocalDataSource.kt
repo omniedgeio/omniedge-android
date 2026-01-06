@@ -11,6 +11,8 @@ class LocalDataSource(context: Context) {
         const val LOCAL_SP = "local"
 
         const val KEY_TOKEN = "token"
+        const val KEY_REFRESH_TOKEN = "refresh_token"
+        const val KEY_TOKEN_EXPIRES_AT = "token_expires_at"
         const val KEY_UUID = "uuid"
         const val KEY_HARDWARE_UUID = "hardware_uuid"
         const val KEY_COMMUNITY_NAME = "community_name"
@@ -21,10 +23,13 @@ class LocalDataSource(context: Context) {
         const val KEY_SERVER_HOST = "server_host"
         const val KEY_SERVER_COUNTRY = "server_country"
         const val KEY_LATEST_JOINED_NETWORK_UUID = "latest_joined_network_uuid"
+        const val KEY_USER_EMAIL = "user_email"
+        const val KEY_USER_NAME = "user_name"
     }
 
     private val sp = context.getSharedPreferences(LOCAL_SP, Context.MODE_PRIVATE)
 
+    // ==================== TOKEN MANAGEMENT ====================
     fun getToken(): String? {
         return sp.getString(KEY_TOKEN, null)
     }
@@ -33,6 +38,54 @@ class LocalDataSource(context: Context) {
         sp.edit().putString(KEY_TOKEN, token).apply()
     }
 
+    fun getRefreshToken(): String? {
+        return sp.getString(KEY_REFRESH_TOKEN, null)
+    }
+
+    fun updateRefreshToken(refreshToken: String?) {
+        sp.edit().putString(KEY_REFRESH_TOKEN, refreshToken).apply()
+    }
+
+    fun getTokenExpiresAt(): String? {
+        return sp.getString(KEY_TOKEN_EXPIRES_AT, null)
+    }
+
+    fun updateTokenExpiresAt(expiresAt: String?) {
+        sp.edit().putString(KEY_TOKEN_EXPIRES_AT, expiresAt).apply()
+    }
+
+    fun saveLoginData(token: String?, refreshToken: String?, expiresAt: String?) {
+        sp.edit()
+            .putString(KEY_TOKEN, token)
+            .putString(KEY_REFRESH_TOKEN, refreshToken)
+            .putString(KEY_TOKEN_EXPIRES_AT, expiresAt)
+            .apply()
+    }
+
+    fun clearAuth() {
+        sp.edit()
+            .remove(KEY_TOKEN)
+            .remove(KEY_REFRESH_TOKEN)
+            .remove(KEY_TOKEN_EXPIRES_AT)
+            .remove(KEY_USER_EMAIL)
+            .remove(KEY_USER_NAME)
+            .apply()
+    }
+
+    // ==================== USER PROFILE ====================
+    fun getUserEmail(): String? = sp.getString(KEY_USER_EMAIL, null)
+    
+    fun updateUserEmail(email: String?) {
+        sp.edit().putString(KEY_USER_EMAIL, email).apply()
+    }
+
+    fun getUserName(): String? = sp.getString(KEY_USER_NAME, null)
+    
+    fun updateUserName(name: String?) {
+        sp.edit().putString(KEY_USER_NAME, name).apply()
+    }
+
+    // ==================== DEVICE ====================
     fun getDeviceUUID(): String? = sp.getString(KEY_UUID, null)
 
     fun getHardwareUUID(): String {
@@ -52,6 +105,7 @@ class LocalDataSource(context: Context) {
         sp.edit().putString(KEY_UUID, uuid).apply()
     }
 
+    // ==================== NETWORK INFO ====================
     fun updateCommunityName(communityName: String) {
         sp.edit().putString(KEY_COMMUNITY_NAME, communityName).apply()
     }
@@ -86,6 +140,7 @@ class LocalDataSource(context: Context) {
         sp.edit().putString(KEY_LATEST_JOINED_NETWORK_UUID, uuid).apply()
     }
 
+    // ==================== DEVICE INFO ====================
     val osInfo = "${Build.BRAND} ${Build.MODEL} OS:${Build.VERSION.RELEASE}"
 
     val deviceName: String by lazy {
