@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import com.blankj.utilcode.util.Utils
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import io.omniedge.data.DataRepository
@@ -44,7 +43,6 @@ class App : Application() {
         repository = DataRepository.getInstance(this)
         ThreadUtils.execute { sp.edit().apply() }
 
-        Utils.init(this)
         initProvider()
 
         Logger.addLogAdapter(object : AndroidLogAdapter() {
