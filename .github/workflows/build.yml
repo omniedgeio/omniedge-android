@@ -2,9 +2,6 @@ name: Build android
 
 on:
   push:
-    # branches:
-    #   - main
-    #   - dev
     tags:
       - 'v*.*.*'
 
@@ -14,38 +11,48 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup JDK
-        uses: actions/setup-java@v1
+        uses: actions/checkout@v4
         with:
-          java-version: 11
+          submodules: recursive
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
       - name: Run Tests
-        run: bash ./gradlew test --stacktrace  
+        run: ./gradlew test --stacktrace --warning-mode all
+
   apk:
     name: Generate APK
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
-      - name: Setup JDK
-        uses: actions/setup-java@v1
+        uses: actions/checkout@v4
         with:
-          java-version: 11
+          submodules: recursive
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
       - name: Build APK
-        run: bash ./gradlew assembleDebug --stacktrace
+        run: ./gradlew assembleDebug --stacktrace
       - name: Generate SHA256 checksums
         run: |
           sha256sum app/build/outputs/apk/debug/app-debug.apk >> OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
           cat OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
-          pwd
       - name: Upload APK
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: apk
           path: app/build/outputs/apk/debug/app-debug.apk
       - name: Upload SHA256
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: SHA256
           path: OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
@@ -57,43 +64,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download APK from build
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: apk
       - name: Download SHA256 from build
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: SHA256
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: OmniEdge-Android-${{ github.ref }} 
-        
-      - name: Upload Release APK
-        id: upload_release_asset
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: apk/app-debug.apk
-          asset_name: OmniEdge-Android-${{ github.ref_name }}.apk
-          asset_content_type: application/zip
-          
-      - name: Upload Release SHA256
-        id: upload_release_SHA256
-        uses: actions/upload-release-asset@v1.0.1
+          name: OmniEdge-Android-${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            app-debug.apk
+            OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: SHA256/OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
-          asset_name: OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
-          asset_content_type: application/txt
 
       - name: Notify web-frontend to update docs
         uses: peter-evans/repository-dispatch@v2
