@@ -30,6 +30,7 @@ data class RegisterDevice(
     val platform: String? = "android",
 )
 
+data class RefreshToken(
     @SerializedName("refresh_token") val refreshToken: String
 )
 
