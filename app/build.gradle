@@ -92,7 +92,7 @@ dependencies {
     kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:$permissionsdispatcher_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_ktx_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_ktx_version"
-    implementation "com.github.nicksales/Android-AdvancedWebView:v3.2.1"
+    implementation "com.github.delight-im:Android-AdvancedWebView:v3.2.1"
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
     implementation "androidx.browser:browser:1.7.0"
 
