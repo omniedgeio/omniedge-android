@@ -6,15 +6,8 @@ import io.reactivex.Single
 class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
 
     // ==================== AUTH ====================
-    override fun register(params: Register): Single<Response> {
-        return httpApi.register(params)
-    }
-
-    override fun login(params: PasswordLogin): Single<LoginResponse> {
-        return httpApi.login(params)
-    }
-
     override fun loginWithGoogle(params: GoogleLogin): Single<LoginResponse> {
+
         return httpApi.loginWithGoogle(params)
     }
 
@@ -22,16 +15,13 @@ class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
         return httpApi.refreshToken(params)
     }
 
-    override fun resetPassword(params: ResetPassword): Single<Response> {
-        return httpApi.resetPassword(params)
-    }
-
-    override fun resetPasswordVerify(params: ResetPasswordVerify): Single<Response> {
-        return httpApi.resetPasswordVerify(params)
-    }
-
     override fun exchangeOAuthCode(params: OAuthTokenExchange): Single<LoginResponse> {
+
         return httpApi.exchangeOAuthCode(params)
+    }
+
+    override fun notifySession(params: SessionNotify): Single<Response> {
+        return httpApi.notifySession(params)
     }
 
     // ==================== PROFILE ====================

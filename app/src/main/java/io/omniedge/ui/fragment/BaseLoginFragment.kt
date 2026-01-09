@@ -14,12 +14,8 @@ abstract class BaseLoginFragment : BaseFragment() {
         private const val TAG = "BaseLoginFragment"
     }
 
-    protected fun signIn(email: String, password: String, authSessionUuid: String? = null) {
-        App.repository
-            .login(email, password, authSessionUuid)
-            .handleLoginResult(this, requireContext())
-    }
 }
+
 
 fun Single<LoginResponse>.handleLoginResult(pageView: PageView, context: Context) {
     this.doOnSuccess {

@@ -30,21 +30,8 @@ class DataRepository private constructor(private val context: Context) {
     }
 
     // ==================== AUTH ====================
-    fun register(registerInfo: Register): Single<Response> {
-        return remoteDataSource.register(registerInfo)
-    }
-
-    fun login(email: String, password: String, authSessionUuid: String? = null): Single<LoginResponse> {
-        return remoteDataSource.login(PasswordLogin(authSessionUuid, email, password))
-            .doOnSuccess { response ->
-                Log.d(TAG, "sign in result:$response")
-                response.data?.let { data ->
-                    localDataSource.saveLoginData(data.token, data.refreshToken, data.expiresAt)
-                }
-            }
-    }
-
     fun exchangeOAuthCode(code: String, verifier: String, redirectUri: String): Single<LoginResponse> {
+
         return remoteDataSource.exchangeOAuthCode(OAuthTokenExchange(code = code, codeVerifier = verifier, redirectUri = redirectUri))
             .doOnSuccess { response ->
                 response.data?.let { data ->
@@ -80,12 +67,13 @@ class DataRepository private constructor(private val context: Context) {
             }
     }
 
-    fun resetPassword(email: String): Single<Response> {
-        return remoteDataSource.resetPassword(ResetPassword(email))
+    fun logout() {
+
+        localDataSource.clearAuth()
     }
 
-    fun logout() {
-        localDataSource.clearAuth()
+    fun notifySession(authSessionUuid: String): Single<Response> {
+        return remoteDataSource.notifySession(SessionNotify(authSessionUuid))
     }
 
     // ==================== PROFILE ====================

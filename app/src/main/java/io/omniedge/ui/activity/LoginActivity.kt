@@ -26,6 +26,9 @@ class LoginActivity : BaseActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var client: GoogleSignInClient
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    
+    // UUID for session authorization after login
+    var pendingSessionUUID: String? = null
 
     override fun getPageTitle(): Int {
         return R.string.app_login
@@ -38,10 +41,6 @@ class LoginActivity : BaseActivity() {
 
     override fun init() {
         super.init()
-
-        binding.googleLogin.setOnClickListener {
-            signInWithGoogle()
-        }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(BuildConfig.CLIENT_ID)
@@ -56,7 +55,8 @@ class LoginActivity : BaseActivity() {
             }
     }
 
-    private fun signInWithGoogle() {
+    fun signInWithGoogle(sessionUUID: String? = null) {
+        pendingSessionUUID = sessionUUID
         resultLauncher.launch(client.signInIntent)
     }
 
@@ -69,14 +69,24 @@ class LoginActivity : BaseActivity() {
             val idToken = account.idToken
             if (idToken != null) {
                 App.repository
-                    .loginWithGoogle(idToken)
+                    .loginWithGoogle(idToken, pendingSessionUUID)
+                    .observeOn(AndroidSchedulers.mainThread())
                     .handleLoginResult(this, this)
+                
+                // If there's a pending session, notify it after successful token update
+                pendingSessionUUID?.let { uuid ->
+                    App.repository.notifySession(uuid)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({
+                            Log.d(TAG, "Session notified successfully")
+                        }, {
+                            Log.e(TAG, "Failed to notify session", it)
+                        })
+                }
             } else {
                 showToast(getString(R.string.invalid_token))
             }
         } catch (e: ApiException) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=${e.statusCode} message=${e.message}")
             showToast("SignInResult:failed code=${e.statusCode}")
         }

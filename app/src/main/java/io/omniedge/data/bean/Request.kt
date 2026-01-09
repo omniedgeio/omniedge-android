@@ -2,11 +2,6 @@ package io.omniedge.data.bean
 
 import com.google.gson.annotations.SerializedName
 
-data class ActivatePasswordLogin(
-    val password: String,
-    @SerializedName("confirm_password") val confirmPassword: String,
-)
-
 data class ChangePassword(
     @SerializedName("old_password") val oldPassword: String,
     @SerializedName("new_password") val newPassword: String,
@@ -22,26 +17,12 @@ data class LinkGoogleAccount(
     val idToken: String,
 )
 
-open class Login(authSessionUuid: String?)
+open class Login(val authSessionUuid: String?)
 
 data class GoogleLogin(
-    @SerializedName("auth_session_uuid") val authSessionUuid: String?,
+    @SerializedName("auth_session_uuid") val sessionUuid: String?,
     @SerializedName("id_token") val idToken: String,
-) : Login(authSessionUuid)
-
-data class PasswordLogin(
-    @SerializedName("auth_session_uuid") val authSessionUuid: String?,
-    val email: String,
-    val password: String,
-) : Login(authSessionUuid)
-
-data class Register(
-    val name: String,
-    val email: String,
-    val password: String,
-    @SerializedName("confirm_password") val confirmPassword: String
-)
-
+) : Login(sessionUuid)
 data class RegisterDevice(
     val name: String,
     @SerializedName("hardware_id") val hardwareId: String,
@@ -49,15 +30,6 @@ data class RegisterDevice(
     val platform: String? = "android",
 )
 
-data class ResetPassword(val email: String)
-
-data class ResetPasswordVerify(
-    val email: String,
-    val code: String,
-    val password: String,
-)
-
-data class RefreshToken(
     @SerializedName("refresh_token") val refreshToken: String
 )
 
@@ -85,3 +57,8 @@ data class OAuthTokenExchange(
     @SerializedName("code_verifier") val codeVerifier: String,
     @SerializedName("redirect_uri") val redirectUri: String
 )
+
+data class SessionNotify(
+    @SerializedName("auth_session_uuid") val authSessionUuid: String
+)
+

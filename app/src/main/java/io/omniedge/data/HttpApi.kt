@@ -7,13 +7,6 @@ import retrofit2.http.*
 interface HttpApi {
 
     // ==================== AUTH ====================
-    @POST("/api/v2/auth/register")
-    fun register(@Body params: Register): Single<Response>
-
-    @Headers("provider: password")
-    @POST("/api/v2/auth/login/password")
-    fun login(@Body params: PasswordLogin): Single<LoginResponse>
-
     @Headers("provider: google")
     @POST("/api/v2/auth/login/google")
     fun loginWithGoogle(@Body params: GoogleLogin): Single<LoginResponse>
@@ -21,11 +14,8 @@ interface HttpApi {
     @POST("/api/v2/auth/refresh")
     fun refreshToken(@Body params: RefreshToken): Single<LoginResponse>
 
-    @POST("/api/v2/auth/reset-password/code")
-    fun resetPassword(@Body params: ResetPassword): Single<Response>
-
-    @POST("/api/v2/auth/reset-password/verify")
-    fun resetPasswordVerify(@Body params: ResetPasswordVerify): Single<Response>
+    @POST("/api/v2/auth/login/session/notify")
+    fun notifySession(@Body params: SessionNotify): Single<Response>
 
     // ==================== PROFILE ====================
     @GET("/api/v2/profile")

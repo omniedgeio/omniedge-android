@@ -1,158 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/email_hint"
-        android:labelFor="@id/et_email"
-        app:layout_constraintBottom_toTopOf="@id/til_password"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+    <!-- Logo/Branding -->
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="32dp"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/app_name"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed">
-
-        <EditText
-            android:id="@+id/et_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:autofillHints="emailAddress"
-            android:imeOptions="actionNext"
-            android:inputType="textEmailAddress"
-            android:lines="1"
-            android:maxLines="1"
-            android:textSize="22sp"
-            tools:text="test6@gmail.com" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/til_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/password_hint"
-        app:layout_constraintBottom_toTopOf="@id/tv_forget_password"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_email"
-        app:passwordToggleEnabled="true">
-
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:autofillHints="password"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:lines="1"
-            android:maxLines="1"
-            android:textSize="22sp"
-            tools:text="testtest" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/tv_forget_password"
+        android:id="@+id/tv_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:linksClickable="true"
-        android:padding="12dp"
-        android:text="@string/forget_password"
-        app:layout_constraintBottom_toTopOf="@id/button_gap"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/til_password" />
+        android:layout_marginTop="16dp"
+        android:text="@string/app_name"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/iv_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-    <Space
-        android:id="@+id/button_gap"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_login"
-        app:layout_constraintTop_toBottomOf="@id/tv_forget_password" />
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/normal_button_bg"
-        android:gravity="center"
-        android:lines="1"
-        android:maxLines="1"
-        android:text="@string/app_login"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        android:typeface="monospace"
-        app:layout_constraintBottom_toTopOf="@id/btn_browser_login"
+        android:text="Sign in to continue"
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/tv_welcome"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_gap" />
+        app:layout_constraintRight_toRightOf="parent" />
 
-    <Button
-        android:id="@+id/btn_browser_login"
+    <!-- Google Sign-In Button -->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btn_google_sign_in"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/normal_button_bg"
-        android:gravity="center"
-        android:lines="1"
-        android:maxLines="1"
-        android:text="Log in with Browser"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        android:typeface="monospace"
-        app:layout_constraintBottom_toTopOf="@id/btn_scan_qr"
+        android:layout_marginTop="48dp"
+        app:buttonSize="wide"
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_login" />
+        app:layout_constraintRight_toRightOf="parent" />
 
+    <!-- Divider -->
+    <View
+        android:id="@+id/divider_left"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/btn_google_sign_in"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_divider"
+        app:layout_constraintWidth_percent="0.35" />
+
+    <TextView
+        android:id="@+id/tv_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:text="OR"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintTop_toTopOf="@id/divider_left"
+        app:layout_constraintBottom_toBottomOf="@id/divider_left"
+        app:layout_constraintLeft_toRightOf="@id/divider_left"
+        app:layout_constraintRight_toLeftOf="@id/divider_right" />
+
+    <View
+        android:id="@+id/divider_right"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toTopOf="@id/divider_left"
+        app:layout_constraintLeft_toRightOf="@id/tv_divider"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintWidth_percent="0.35" />
+
+    <!-- QR Scan for TV Login -->
     <Button
         android:id="@+id/btn_scan_qr"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/normal_button_bg"
         android:gravity="center"
-        android:lines="1"
-        android:maxLines="1"
-        android:text="Scan QR to Login Desktop"
+        android:text="Scan QR to Authorize TV"
         android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        android:typeface="monospace"
-        app:layout_constraintBottom_toTopOf="@id/btn_register"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/divider_left"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_browser_login" />
+        app:layout_constraintRight_toRightOf="parent" />
 
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tv_qr_hint"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/normal_button_bg"
-        android:gravity="center"
-        android:lines="1"
-        android:maxLines="1"
-        android:text="@string/app_register"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        android:typeface="monospace"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Scan QR code shown on Android TV or Apple TV to authorize"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/btn_scan_qr"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_scan_qr" />
+        app:layout_constraintRight_toRightOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

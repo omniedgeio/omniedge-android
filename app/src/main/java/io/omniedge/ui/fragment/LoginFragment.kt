@@ -13,73 +13,31 @@ import io.omniedge.ui.activity.ResetPasswordActivity
 
 class LoginFragment : BaseLoginFragment() {
     private lateinit var binding: FragmentLoginBinding
+    
     override fun getLayoutView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
-            .apply {
-//                lifecycleOwner = viewLifecycleOwner
-            }
-        binding.btnLogin.setOnClickListener {
-            val email = binding.etEmail.text?.toString()
-            val password = binding.etPassword.text?.toString()
 
-            if (email.isNullOrBlank() || password.isNullOrEmpty()) {
-                toast(it, R.string.email_or_password_empty)
-                return@setOnClickListener
-            }
-
-            if (password.length < 8) {
-                toast(it, R.string.password_short_length)
-                return@setOnClickListener
-            }
-
-            signIn(email, password)
-        }
-        binding.etPassword.setOnEditorActionListener { _, actionId, _ ->
-            return@setOnEditorActionListener if (actionId == EditorInfo.IME_ACTION_DONE) {
-                binding.btnLogin.callOnClick()
-                true
-            } else false
-        }
-
-        binding.tvForgetPassword?.setOnClickListener {
-            startActivity(Intent(requireContext(), ResetPasswordActivity::class.java))
-        }
-
-        binding.btnRegister.setOnClickListener {
-            it.findNavController().navigate(R.id.register_fragment)
+        binding.btnGoogleSignIn.setOnClickListener {
+            (requireActivity() as? LoginActivity)?.signInWithGoogle()
         }
 
         binding.btnScanQr.setOnClickListener {
             com.google.zxing.integration.android.IntentIntegrator.forSupportFragment(this)
                 .setDesiredBarcodeFormats(com.google.zxing.integration.android.IntentIntegrator.QR_CODE)
-                .setPrompt("Scan QR code on your desktop")
+                .setPrompt("Scan QR code on your Android TV or Apple TV")
                 .setBeepEnabled(true)
                 .setOrientationLocked(false)
                 .initiateScan()
-        }
-        binding.btnBrowserLogin.setOnClickListener {
-            val pkce = io.omniedge.data.util.PKCE.generate()
-            io.omniedge.App.repository.savePKCE(pkce.verifier, pkce.state)
-
-            val clientId = "omniedge-android"
-            val redirectUri = "io.omniedge:/oauth/callback"
-            val baseURL = "https://api.omniedge.io/api/v2" // Should ideally come from config
-
-            val authURL = "$baseURL/oauth/authorize?client_id=$clientId&redirect_uri=$redirectUri&response_type=code&scope=openid%20profile%20email%20offline_access&state=${pkce.state}&code_challenge=${pkce.challenge}&code_challenge_method=S256"
-
-            val builder = androidx.browser.customtabs.CustomTabsIntent.Builder()
-            val customTabsIntent = builder.build()
-            customTabsIntent.launchUrl(requireContext(), android.net.Uri.parse(authURL))
         }
 
         return binding.root
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: android.content.Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = com.google.zxing.integration.android.IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
             if (result.contents != null) {
@@ -95,14 +53,23 @@ class LoginFragment : BaseLoginFragment() {
         val sessionUUID = uri.getQueryParameter("auth_session_uuid")
 
         if (sessionUUID != null) {
-            val email = binding.etEmail.text?.toString()
-            val password = binding.etPassword.text?.toString()
-
-            if (!email.isNullOrBlank() && !password.isNullOrEmpty()) {
-                signIn(email, password, sessionUUID)
+            if (io.omniedge.App.repository.isLoggedIn()) {
+                // Already logged in - just notify session
+                io.omniedge.App.repository.notifySession(sessionUUID)
+                    .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                    .subscribe({
+                        toast(binding.root, "TV authorized successfully!")
+                    }, {
+                        toast(binding.root, "Failed to authorize TV: ${it.message}")
+                    })
             } else {
-                toast(binding.root, "Please enter your credentials first")
+                // Not logged in - trigger Google sign-in and save pending session
+                toast(binding.root, "Please sign in with Google first")
+                (requireActivity() as? LoginActivity)?.signInWithGoogle(sessionUUID)
             }
+        } else {
+            toast(binding.root, "Invalid QR code")
         }
     }
+
 }

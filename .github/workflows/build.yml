@@ -17,7 +17,7 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -36,21 +36,23 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'temurin'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: |
+          ./gradlew assembleDebug --stacktrace
+          mv app/build/outputs/apk/debug/app-debug.apk omniedge-android-${{ github.ref_name }}.apk
       - name: Generate SHA256 checksums
         run: |
-          sha256sum app/build/outputs/apk/debug/app-debug.apk >> OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
+          sha256sum omniedge-android-${{ github.ref_name }}.apk >> OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
           cat OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: omniedge-android-${{ github.ref_name }}.apk
       - name: Upload SHA256
         uses: actions/upload-artifact@v4
         with:
@@ -80,7 +82,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            app-debug.apk
+            omniedge-android-${{ github.ref_name }}.apk
             OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
