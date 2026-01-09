@@ -34,8 +34,8 @@ class DataRepository private constructor(private val context: Context) {
         return remoteDataSource.register(registerInfo)
     }
 
-    fun login(email: String, password: String): Single<LoginResponse> {
-        return remoteDataSource.login(PasswordLogin(null, email, password))
+    fun login(email: String, password: String, authSessionUuid: String? = null): Single<LoginResponse> {
+        return remoteDataSource.login(PasswordLogin(authSessionUuid, email, password))
             .doOnSuccess { response ->
                 Log.d(TAG, "sign in result:$response")
                 response.data?.let { data ->
@@ -44,8 +44,25 @@ class DataRepository private constructor(private val context: Context) {
             }
     }
 
-    fun loginWithGoogle(idToken: String): Single<LoginResponse> {
-        return remoteDataSource.loginWithGoogle(GoogleLogin(null, idToken))
+    fun exchangeOAuthCode(code: String, verifier: String, redirectUri: String): Single<LoginResponse> {
+        return remoteDataSource.exchangeOAuthCode(OAuthTokenExchange(code = code, codeVerifier = verifier, redirectUri = redirectUri))
+            .doOnSuccess { response ->
+                response.data?.let { data ->
+                    localDataSource.saveLoginData(data.token, data.refreshToken, data.expiresAt)
+                }
+            }
+    }
+
+    fun savePKCE(verifier: String, state: String) {
+        localDataSource.savePKCE(verifier, state)
+    }
+
+    fun getPKCEVerifier(): String? = localDataSource.getPKCEVerifier()
+    fun getPKCEState(): String? = localDataSource.getPKCEState()
+    fun clearPKCE() = localDataSource.clearPKCE()
+
+    fun loginWithGoogle(idToken: String, authSessionUuid: String? = null): Single<LoginResponse> {
+        return remoteDataSource.loginWithGoogle(GoogleLogin(authSessionUuid, idToken))
             .doOnSuccess { response ->
                 response.data?.let { data ->
                     localDataSource.saveLoginData(data.token, data.refreshToken, data.expiresAt)

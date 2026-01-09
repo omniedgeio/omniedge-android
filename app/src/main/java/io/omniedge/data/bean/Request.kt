@@ -77,3 +77,11 @@ data class UpdateNetwork(
 data class UpdateProfile(
     val name: String? = null,
 )
+
+data class OAuthTokenExchange(
+    @SerializedName("grant_type") val grantType: String = "authorization_code",
+    @SerializedName("client_id") val clientId: String = "omniedge-android",
+    val code: String,
+    @SerializedName("code_verifier") val codeVerifier: String,
+    @SerializedName("redirect_uri") val redirectUri: String
+)

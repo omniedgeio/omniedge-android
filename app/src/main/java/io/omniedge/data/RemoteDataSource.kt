@@ -30,6 +30,10 @@ class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
         return httpApi.resetPasswordVerify(params)
     }
 
+    override fun exchangeOAuthCode(params: OAuthTokenExchange): Single<LoginResponse> {
+        return httpApi.exchangeOAuthCode(params)
+    }
+
     // ==================== PROFILE ====================
     override fun getProfile(): Single<ProfileResponse> {
         return httpApi.getProfile()

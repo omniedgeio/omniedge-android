@@ -25,6 +25,8 @@ class LocalDataSource(context: Context) {
         const val KEY_LATEST_JOINED_NETWORK_UUID = "latest_joined_network_uuid"
         const val KEY_USER_EMAIL = "user_email"
         const val KEY_USER_NAME = "user_name"
+        const val KEY_PKCE_VERIFIER = "pkce_verifier"
+        const val KEY_PKCE_STATE = "pkce_state"
     }
 
     private val sp = context.getSharedPreferences(LOCAL_SP, Context.MODE_PRIVATE)
@@ -69,6 +71,23 @@ class LocalDataSource(context: Context) {
             .remove(KEY_TOKEN_EXPIRES_AT)
             .remove(KEY_USER_EMAIL)
             .remove(KEY_USER_NAME)
+            .apply()
+    }
+
+    fun savePKCE(verifier: String, state: String) {
+        sp.edit()
+            .putString(KEY_PKCE_VERIFIER, verifier)
+            .putString(KEY_PKCE_STATE, state)
+            .apply()
+    }
+
+    fun getPKCEVerifier(): String? = sp.getString(KEY_PKCE_VERIFIER, null)
+    fun getPKCEState(): String? = sp.getString(KEY_PKCE_STATE, null)
+
+    fun clearPKCE() {
+        sp.edit()
+            .remove(KEY_PKCE_VERIFIER)
+            .remove(KEY_PKCE_STATE)
             .apply()
     }
 
