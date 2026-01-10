@@ -5,11 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import androidx.navigation.findNavController
-import io.omniedge.R
 import io.omniedge.databinding.FragmentLoginBinding
-import io.omniedge.ui.activity.ResetPasswordActivity
+import io.omniedge.ui.activity.LoginActivity
 
 class LoginFragment : BaseLoginFragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -23,6 +20,10 @@ class LoginFragment : BaseLoginFragment() {
 
         binding.btnGoogleSignIn.setOnClickListener {
             (requireActivity() as? LoginActivity)?.signInWithGoogle()
+        }
+
+        binding.btnBrowserLogin.setOnClickListener {
+            (requireActivity() as? LoginActivity)?.signInWithBrowser()
         }
 
         binding.btnScanQr.setOnClickListener {

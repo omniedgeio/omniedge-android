@@ -1,0 +1,11 @@
+.git
+.gradle
+.idea
+build
+app/build
+common/build
+n2n/build
+local.properties
+*.jks
+captures
+*.apk

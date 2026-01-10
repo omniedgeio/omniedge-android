@@ -86,7 +86,35 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintWidth_percent="0.35" />
 
-    <!-- QR Scan for TV Login -->
+    <!-- Browser Login (Replaces QR Scan) -->
+    <Button
+        android:id="@+id/btn_browser_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/normal_button_bg"
+        android:gravity="center"
+        android:text="Login"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/divider_left"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_browser_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Sign in securely via your web browser"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/btn_browser_login"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <!-- QR Scan for TV Login (Hidden for now) -->
     <Button
         android:id="@+id/btn_scan_qr"
         android:layout_width="0dp"
@@ -97,7 +125,8 @@
         android:text="Scan QR to Authorize TV"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/divider_left"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/tv_browser_hint"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -110,6 +139,7 @@
         android:textSize="12sp"
         android:textColor="@android:color/darker_gray"
         android:textAlignment="center"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/btn_scan_qr"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

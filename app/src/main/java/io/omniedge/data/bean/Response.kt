@@ -10,6 +10,11 @@ data class Response(
 
 data class ErrorData(val password: String?)
 
+data class PaginatedData<T>(
+    val meta: JsonObject?,
+    val data: List<T> = arrayListOf()
+)
+
 // ==================== AUTH RESPONSES ====================
 data class LoginResponse(
     val message: String?,
@@ -25,7 +30,7 @@ data class LoginResponse(
 // ==================== DEVICE RESPONSES ====================
 data class RegisterDeviceResponse(val message: String?, val data: DeviceData?)
 data class DeviceResponse(val message: String?, val data: DeviceData?)
-data class ListDevicesResponse(val message: String?, val data: List<DeviceData> = arrayListOf())
+data class ListDevicesResponse(val message: String?, val data: PaginatedData<DeviceData>?)
 
 data class HeartbeatResponse(
     val message: String?,
@@ -59,7 +64,7 @@ data class ProfileResponse(
 }
 
 // ==================== NETWORK RESPONSES ====================
-data class ListNetworkResponse(val message: String?, val data: List<NetworkData> = arrayListOf())
+data class ListNetworkResponse(val message: String?, val data: PaginatedData<NetworkData>?)
 data class NetworkResponse(val message: String?, val data: NetworkData?)
 data class CreateNetworkResponse(val message: String?, val data: NetworkData?)
 data class JoinNetworkResponse(val message: String?, val data: JoinNetworkData?)

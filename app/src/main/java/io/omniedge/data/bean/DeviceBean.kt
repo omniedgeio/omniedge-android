@@ -1,7 +1,7 @@
 package io.omniedge.data.bean
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * Created on 2019-12-22 14:05

@@ -30,16 +30,6 @@ class DataRepository private constructor(private val context: Context) {
     }
 
     // ==================== AUTH ====================
-    fun exchangeOAuthCode(code: String, verifier: String, redirectUri: String): Single<LoginResponse> {
-
-        return remoteDataSource.exchangeOAuthCode(OAuthTokenExchange(code = code, codeVerifier = verifier, redirectUri = redirectUri))
-            .doOnSuccess { response ->
-                response.data?.let { data ->
-                    localDataSource.saveLoginData(data.token, data.refreshToken, data.expiresAt)
-                }
-            }
-    }
-
     fun savePKCE(verifier: String, state: String) {
         localDataSource.savePKCE(verifier, state)
     }
@@ -65,6 +55,10 @@ class DataRepository private constructor(private val context: Context) {
                     localDataSource.saveLoginData(data.token, data.refreshToken, data.expiresAt)
                 }
             }
+    }
+
+    fun saveLoginData(token: String?, refreshToken: String?, expiresAt: String? = null) {
+        localDataSource.saveLoginData(token, refreshToken, expiresAt)
     }
 
     fun logout() {

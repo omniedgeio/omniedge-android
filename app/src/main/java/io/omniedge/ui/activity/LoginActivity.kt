@@ -16,6 +16,7 @@ import io.omniedge.BuildConfig
 import io.omniedge.R
 import io.omniedge.databinding.ActivityLoginBinding
 import io.omniedge.ui.fragment.handleLoginResult
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 
 class LoginActivity : BaseActivity() {
@@ -58,6 +59,16 @@ class LoginActivity : BaseActivity() {
     fun signInWithGoogle(sessionUUID: String? = null) {
         pendingSessionUUID = sessionUUID
         resultLauncher.launch(client.signInIntent)
+    }
+
+    fun signInWithBrowser() {
+        val loginUrl = "https://connect.omniedge.io/login/mobile"
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(loginUrl))
+            startActivity(intent)
+        } catch (e: Exception) {
+            showToast(getString(R.string.browser_missing))
+        }
     }
 
     private fun handleGoogleSignInResult(completedTask: Task<GoogleSignInAccount>) {

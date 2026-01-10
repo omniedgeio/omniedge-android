@@ -21,7 +21,7 @@ import io.omniedge.n2n.model.EdgeStatus
 import io.omniedge.n2n.model.N2NSettingInfo
 import io.omniedge.ui.fragment.DeviceListFragment
 import io.omniedge.viewmodel.DeviceListVm
-import kotlinx.android.synthetic.main.activity_device_list.*
+// Removed synthetic import
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -93,6 +93,7 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
         if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_DEVICE_LIST) == null) {
             transaction.add(R.id.container, DeviceListFragment(), FRAGMENT_TAG_DEVICE_LIST)
         }
+        val switch_vpn = findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switch_vpn)
         switch_vpn.setOnClickListener {
             if (switch_vpn.isChecked) {
                 startService()
@@ -109,7 +110,8 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
             }
         }
         DeviceListVm.connectStatus().observe(this) { connected: Boolean? ->
-            switch_vpn.isChecked = connected == true
+            findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switch_vpn).isChecked = connected == true
+            val btn_ping = findViewById<android.widget.Button>(R.id.btn_ping)
             btn_ping.isEnabled = connected == true
             btn_ping.isFocusable = connected == true
         }
@@ -126,10 +128,10 @@ class DeviceListActivity : BaseActivity(), PopupMenu.OnMenuItemClickListener {
             }
         }
         DeviceListVm.currentNetwork().observe(this) {
-            switch_vpn.isEnabled = it != null
+            findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.switch_vpn).isEnabled = it != null
 
             it.apply {
-                tv_ip.text = this?.second?.virtualIp ?: ""
+                findViewById<android.widget.TextView>(R.id.tv_ip).text = this?.second?.virtualIp ?: ""
             }
         }
         DeviceListVm.toast().observe(this) {

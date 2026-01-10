@@ -83,7 +83,7 @@ object DeviceListVm {
             .flatMap { repository.listNetworks() }
             // create network if empty
             .flatMap {
-                if (it.data.isEmpty()) {
+                if (it.data?.data?.isEmpty() == true) {
                     repository.createNetwork(
                         // TODO: 2022/1/15 customize creation for network
                         CreateNetwork(
@@ -104,7 +104,7 @@ object DeviceListVm {
                 override fun onSuccess(t: ListNetworkResponse) {
                     loadingLv.postValue(false)
                     OmniLog.d("response: $t")
-                    networksLv.postValue(t.data)
+                    networksLv.postValue(t.data?.data ?: arrayListOf())
                 }
 
                 override fun onError(e: Throwable) {
@@ -140,7 +140,7 @@ object DeviceListVm {
                 override fun onSuccess(t: ListNetworkResponse) {
                     loadingLv.postValue(false)
                     OmniLog.d("response: $t")
-                    networksLv.postValue(t.data)
+                    networksLv.postValue(t.data?.data ?: arrayListOf())
                 }
 
                 override fun onError(e: Throwable) {
@@ -160,8 +160,10 @@ object DeviceListVm {
 
                 // start service after joined network
                 .doOnSuccess { response ->
-                    repository.setNetworkInfo(response.data)
-                    joinedNetworkLv.postValue(response.data)
+                    response.data?.let {
+                        repository.setNetworkInfo(it)
+                        joinedNetworkLv.postValue(it)
+                    }
                     repository.setLatestJoinedNetworkUUID(network.id)
                 }
                 .subscribeOn(AndroidSchedulers.mainThread())

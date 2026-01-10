@@ -27,28 +27,12 @@ class LauncherActivity : BaseActivity() {
     private fun handleIntent(intent: Intent?) {
         val data = intent?.data
         if (data != null && data.scheme == "io.omniedge") {
-            val code = data.getQueryParameter("code")
-            val state = data.getQueryParameter("state")
-            val verifier = App.repository.getPKCEVerifier()
-            val savedState = App.repository.getPKCEState()
-
-            if (code != null && state != null && verifier != null && state == savedState) {
-                App.repository.clearPKCE()
-                lifecycleScope.launch {
-                    try {
-                        val result = App.repository.exchangeOAuthCode(code, verifier, "io.omniedge:/oauth/callback").blockingGet()
-                        if (result.data?.token != null) {
-                            launchMain()
-                            finish()
-                        } else {
-                            launchLogin()
-                            finish()
-                        }
-                    } catch (e: Exception) {
-                        launchLogin()
-                        finish()
-                    }
-                }
+            val token = data.getQueryParameter("token")
+            val refreshToken = data.getQueryParameter("refresh_token")
+            if (!token.isNullOrBlank()) {
+                App.repository.saveLoginData(token, refreshToken)
+                launchMain()
+                finish()
                 return
             }
         }

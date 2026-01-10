@@ -1,7 +1,7 @@
 package io.omniedge.ui.activity
 
 import io.omniedge.R
-import kotlinx.android.synthetic.main.activity_node_setting.*
+// Removed synthetic import
 
 /**
  * Created on 2019-12-22 13:26
@@ -19,7 +19,7 @@ class NodeSettingActivity : BaseActivity() {
 
     override fun init() {
         super.init()
-        btn_connect.setOnClickListener {
+        findViewById<android.view.View>(R.id.btn_connect).setOnClickListener {
             finish()
         }
     }

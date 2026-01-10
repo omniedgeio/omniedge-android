@@ -41,9 +41,9 @@ private val items = listOf(
     MenuItem.Omniedge,
 )
 
-private const val HOME_PAGE_LINK = "https://omniedge.io"
-private const val TERMS_OF_SERVICE_LINK = "https://omniedge.io/terms"
-private const val PRIVACY_POLICY_LINK = "https://omniedge.io/privacy"
+private const val HOME_PAGE_LINK = "https://connect.omniedge.io"
+private const val TERMS_OF_SERVICE_LINK = "https://connect.omniedge.io/terms"
+private const val PRIVACY_POLICY_LINK = "https://connect.omniedge.io/privacy"
 private const val GITHUB_REPO = "https://github.com/omniedgeio/omniedge"
 
 class HelpActivity : BaseActivity() {

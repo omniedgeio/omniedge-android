@@ -34,7 +34,7 @@ abstract class BaseFragment : Fragment(), PageView {
         }
     }
 
-    private fun toast(view: View, msg: String) {
+    fun toast(view: View, msg: String) {
         activity?.runOnUiThread {
             Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
                 .apply {

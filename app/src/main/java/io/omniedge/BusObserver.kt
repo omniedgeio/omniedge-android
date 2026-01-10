@@ -14,7 +14,7 @@ import retrofit2.HttpException
  * Created on 2019-12-22 11:50
  *
  */
-open class BusObserver<T>(private val pageView: PageView) :
+open class BusObserver<T : Any>(private val pageView: PageView) :
     SingleObserver<T>, CompletableObserver, Observer<T> {
     private val gson = Gson()
 

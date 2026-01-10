@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import io.omniedge.PageView
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.include_toolbar.*
 
 /**
  * Base Activity
@@ -90,10 +89,11 @@ abstract class BaseActivity : AppCompatActivity(), PageView {
             }
         }
 
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(io.omniedge.R.id.toolbar)
         if (toolbar != null) {
             val pageTitle = getPageTitle()
             if (pageTitle > 0) {
-                text_title?.text = getString(pageTitle)
+                findViewById<TextView>(io.omniedge.R.id.text_title)?.text = getString(pageTitle)
             }
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayShowTitleEnabled(false)

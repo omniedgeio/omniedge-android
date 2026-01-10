@@ -7,17 +7,11 @@ class RemoteDataSource(private val httpApi: HttpApi) : HttpApi {
 
     // ==================== AUTH ====================
     override fun loginWithGoogle(params: GoogleLogin): Single<LoginResponse> {
-
         return httpApi.loginWithGoogle(params)
     }
 
     override fun refreshToken(params: RefreshToken): Single<LoginResponse> {
         return httpApi.refreshToken(params)
-    }
-
-    override fun exchangeOAuthCode(params: OAuthTokenExchange): Single<LoginResponse> {
-
-        return httpApi.exchangeOAuthCode(params)
     }
 
     override fun notifySession(params: SessionNotify): Single<Response> {

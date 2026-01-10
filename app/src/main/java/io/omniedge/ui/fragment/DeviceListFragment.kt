@@ -20,27 +20,36 @@ import androidx.recyclerview.widget.RecyclerView
 import io.omniedge.*
 import io.omniedge.data.bean.DeviceData
 import io.omniedge.data.bean.NetworkData
+import io.omniedge.databinding.FragmentDeviceListBinding
 import io.omniedge.viewmodel.DeviceListVm
-import kotlinx.android.synthetic.main.fragment_device_list.*
+// Removed synthetic import
 
 
 class DeviceListFragment : BaseFragment() {
 
-    override fun getLayoutRes(): Int {
-        return R.layout.fragment_device_list
+    private var _binding: FragmentDeviceListBinding? = null
+    private val binding get() = _binding!!
+
+    override fun getLayoutView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentDeviceListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         TraceCompat.beginSection("DeviceList#onViewCreated")
-        refresh.setOnRefreshListener {
-            refresh.isRefreshing = false
+        binding.refresh.setOnRefreshListener {
+            binding.refresh.isRefreshing = false
             DeviceListVm.registerDevice()
         }
         val deviceAdapter = DeviceAdapter()
-        listview.adapter = deviceAdapter
-        listview.addItemDecoration(DividerItemDecoration(view.context, RecyclerView.VERTICAL))
-        listview.addItemDecoration(deviceAdapter.getPinnedHeaderItemDecoration(listview))
+        binding.listview.adapter = deviceAdapter
+        binding.listview.addItemDecoration(DividerItemDecoration(view.context, RecyclerView.VERTICAL))
+        binding.listview.addItemDecoration(deviceAdapter.getPinnedHeaderItemDecoration(binding.listview))
         val fragmentActivity = activity as FragmentActivity
         fragmentActivity.findViewById<View>(R.id.btn_ping)
             ?.setOnClickListener { deviceAdapter.updatePing() }
@@ -50,6 +59,11 @@ class DeviceListFragment : BaseFragment() {
         }
 
         TraceCompat.endSection()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 

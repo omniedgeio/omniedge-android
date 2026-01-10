@@ -9,10 +9,10 @@ buildscript {
     ext.enableSystrace = localProperties.getProperty('ENABLE_SYSTRACE', 'false') == 'true'
     
     // Signing configuration - load from local.properties or use defaults
-    ext.signingKeyAlias = localProperties.getProperty('signing.keyAlias', 'omniedge')
-    ext.signingKeyPassword = localProperties.getProperty('signing.keyPassword', '4yQWTSffXuIWCzSD/yu6/g==')
+    ext.signingKeyAlias = localProperties.getProperty('signing.keyAlias', 'jieqi')
+    ext.signingKeyPassword = localProperties.getProperty('signing.keyPassword', 'jieqi123456')
     ext.signingStoreFile = localProperties.getProperty('signing.storeFile', 'debug.jks')
-    ext.signingStorePassword = localProperties.getProperty('signing.storePassword', '4yQWTSffXuIWCzSD/yu6/g==')
+    ext.signingStorePassword = localProperties.getProperty('signing.storePassword', 'jieqi123456')
     
     ext.superNode = localProperties.getProperty('n2n.config.superNode')
 

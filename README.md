@@ -2,7 +2,7 @@
 
 **Bringing intranet on the internet with Zero-Config Mesh VPNs.**
 
-Main repo: https://github.com/omniedgeio/omniedge  Download Android: [OmniEdge.apk](https://omniedge.io/install/download/0.2.2/omniedge-release-v0.2.2.apk)
+Main repo: https://github.com/omniedgeio/omniedge  Download Android: [OmniEdge.apk](https://connect.omniedge.io/install/download/0.2.2/omniedge-release-v0.2.2.apk)
 
 ----
 
@@ -12,7 +12,7 @@ Main repo: https://github.com/omniedgeio/omniedge  Download Android: [OmniEdge.a
 ## How to get started? 
 
 1. If you only need a convenient connectivity service 
-Just visit https://omniedge.io/download and download the apps for your platform. 
+Just visit https://connect.omniedge.io/download and download the apps for your platform. 
 
 2. If you are an experienced programmer 
 You can prepare your own supernode and build the client to reach your own target accroding to the following `Compiler and debugger` Section.
@@ -31,4 +31,4 @@ Latest version of Android Studio
 OmniEdge android is built under [Hin2n](https://github.com/switch-iot/hin2n) by [switchwang](https://github.com/switch-st) and [zhangbz](https://github.com/zhangbz)
 
 ## About US
-[OmniEdge](https://omniedge.io) is primiary developed by the people at [https://github.com/orgs/omniedgeio/people](https://github.com/orgs/omniedgeio/people). 
+[OmniEdge](https://connect.omniedge.io) is primiary developed by the people at [https://github.com/orgs/omniedgeio/people](https://github.com/orgs/omniedgeio/people).

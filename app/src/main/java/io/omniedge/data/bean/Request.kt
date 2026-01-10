@@ -25,7 +25,7 @@ data class GoogleLogin(
 ) : Login(sessionUuid)
 data class RegisterDevice(
     val name: String,
-    @SerializedName("hardware_id") val hardwareId: String,
+    @SerializedName("hardware_uuid") val hardwareId: String,
     val os: String? = null,
     val platform: String? = "android",
 )
