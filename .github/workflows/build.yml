@@ -2,8 +2,6 @@ name: Build android
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*.*.*'
 
@@ -45,8 +43,8 @@ jobs:
           docker rm omniedge-build-container
       - name: Generate SHA256 checksums
         run: |
-          sha256sum omniedge-android-${{ github.ref_name }}.apk >> OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
-          cat OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
+          sha256sum omniedge-android-${{ github.ref_name }}.apk >> omniedge-android-${{ github.ref_name }}.SHA256.txt
+          cat omniedge-android-${{ github.ref_name }}.SHA256.txt
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
@@ -56,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SHA256
-          path: OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
+          path: omniedge-android-${{ github.ref_name }}.SHA256.txt
           
   release:
     name: Release APK
@@ -76,13 +74,13 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          name: OmniEdge-Android-${{ github.ref_name }}
+          name: omniedge-android-${{ github.ref_name }}
           tag_name: ${{ github.ref_name }}
           draft: false
           prerelease: false
           files: |
             omniedge-android-${{ github.ref_name }}.apk
-            OmniEdge-Android-${{ github.ref_name }}.SHA256.txt
+            omniedge-android-${{ github.ref_name }}.SHA256.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
